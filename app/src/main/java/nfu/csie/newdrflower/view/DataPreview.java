@@ -3,10 +3,12 @@ package nfu.csie.newdrflower.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.model.DatabaseShow;
 
 /**
  * Created by barry on 2017/5/9.
@@ -16,6 +18,8 @@ public class DataPreview extends Activity {
 
     private ImageView NextBT,LastBT,BackMain;
     private ImageView[] IMGS = new ImageView[12];
+    int page = 1,max,res,now=0,id,order,t;
+    private DatabaseShow DBShow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class DataPreview extends Activity {
         setContentView(R.layout.dataview);
 
         setcon();
+        setlisten();
     }
 
     private void setcon(){
@@ -43,5 +48,80 @@ public class DataPreview extends Activity {
         LastBT = (ImageView)findViewById(R.id.lastBT);
         BackMain = (ImageView)findViewById(R.id.BackMainPage);
 
+
     }
+
+    private void setlisten(){
+        for(int i = 1;i < IMGS.length;i++)
+        {
+            IMGS[i].setOnClickListener(tuch);
+            IMGS[i].setId(i);
+        }
+        NextBT.setOnClickListener(NextBTListener);
+        LastBT.setOnClickListener(LastBTListener);
+        BackMain.setOnClickListener(BackMainListener);
+    }
+
+    private ImageView.OnClickListener tuch = new ImageView.OnClickListener(){
+        public void onClick(View v) {
+            switch(v.getId())
+            {
+                case 0:
+                    order = (page-1)*12+1;
+                    break;
+                case 1:
+                    order = (page-1)*12+2;
+                    break;
+                case 2:
+                    order = (page-1)*12+3;
+                    break;
+                case 3:
+                    order = (page-1)*12+4;
+                    break;
+                case 4:
+                    order = (page-1)*12+5;
+                    break;
+                case 5:
+                    order = (page-1)*12+6;
+                    break;
+                case 6:
+                    order = (page-1)*12+7;
+                    break;
+                case 7:
+                    order = (page-1)*12+8;
+                    break;
+                case 8:
+                    order = (page-1)*12+9;
+                    break;
+                case 9:
+                    order = (page-1)*12+10;
+                    break;
+                case 10:
+                    order = (page-1)*12+11;
+                    break;
+                case 11:
+                    order = (page-1)*12+12;
+                    break;
+            }
+        }
+    };
+
+    private  ImageView.OnClickListener NextBTListener = new ImageView.OnClickListener(){
+        public void onClick(View v){
+
+        }
+    };
+
+    private ImageView.OnClickListener LastBTListener = new ImageView.OnClickListener(){
+        public void onClick(View v){
+
+        }
+    };
+
+    private ImageView.OnClickListener BackMainListener = new ImageView.OnClickListener(){
+        public void onClick(View v){
+
+        }
+    };
+
 }
