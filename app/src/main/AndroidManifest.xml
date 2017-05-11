@@ -32,7 +32,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="nfu.csie.newdrflower.view.StartView"
+            android:name="nfu.csie.newdrflower.controller.StartActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="nfu.csie.newdrflower.view.DataPreview"
+            android:name="nfu.csie.newdrflower.controller.DataPreviewActivity"
             android:label="@string/title_activity_camera"
             android:screenOrientation="portrait" >
         </activity>

@@ -1,37 +1,42 @@
 package nfu.csie.newdrflower.view;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.content.Intent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
-
+import nfu.csie.newdrflower.controller.DataPreviewActivity;
+import nfu.csie.newdrflower.controller.StartActivity;
 
 /**
- * Created by barry on 2017/5/8.
+ * Created by barry on 2017/5/11.
  */
 
-public class StartView extends Activity {
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.start);
+public class StartView {
+    private Activity activity;
+    private ImageView EnterButton,ExitButton,DataButton;
 
-        ImageView EnterButton = (ImageView)findViewById(R.id.enter);
-        ImageView ExitButton = (ImageView)findViewById(R.id.exit);
-        ImageView DataButton = (ImageView)findViewById(R.id.data);
+    public StartView (StartActivity activity){
+        this.activity = activity;
 
-        EnterButton.setOnClickListener(EnterListener);
-        ExitButton.setOnClickListener(ExitListener);
-        DataButton.setOnClickListener(DataListener);
+        initview();
+        setlisten();
+    }
 
+
+    private void initview() {
+        EnterButton = (ImageView) activity.findViewById(R.id.enter);
+        ExitButton = (ImageView) activity.findViewById(R.id.exit);
+        DataButton = (ImageView) activity.findViewById(R.id.data);
 
     }
 
+    private void setlisten() {
+        EnterButton.setOnClickListener(EnterListener);
+        ExitButton.setOnClickListener(ExitListener);
+        DataButton.setOnClickListener(DataListener);
+    }
 
     private ImageView.OnClickListener EnterListener = new ImageView.OnClickListener(){
         @Override
@@ -41,15 +46,17 @@ public class StartView extends Activity {
     };
 
     private ImageView.OnClickListener ExitListener = new ImageView.OnClickListener(){
-       public void onClick(View v){
-            finish();
-      }
+        public void onClick(View v){
+            activity.finish();
+        }
     };
 
     private ImageView.OnClickListener DataListener = new ImageView.OnClickListener(){
         public void onClick(View v){
-
+            Intent it = new Intent(activity, DataPreviewActivity.class);
+            activity.startActivity(it);
         }
-    };
 
+
+    };
 }
