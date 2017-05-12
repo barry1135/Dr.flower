@@ -1,8 +1,13 @@
 package nfu.csie.newdrflower.view;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.controller.DataPreviewActivity;
@@ -16,13 +21,22 @@ public class DataPreview {
     private Activity activity;
     private ImageView NextBT,LastBT,BackMain;
     private ImageView[] IMGS = new ImageView[12];
-    int order,page = 1;
+    int page = 1,max,res,now=0,id,order,t;
+
+
 
 
     public DataPreview(DataPreviewActivity activity){
         this.activity = activity;
         initView();
         setlisten();
+    }
+
+    public void setImageView(ArrayList<Bitmap> pic){
+        for(int i = 0;i < 12 ;i++,now++){
+            IMGS[i].setImageBitmap(pic.get(now));
+        }
+
     }
 
     private void setlisten() {
@@ -128,7 +142,7 @@ public class DataPreview {
 
     private ImageView.OnClickListener BackMainListener = new ImageView.OnClickListener(){
         public void onClick(View v){
-
+            activity.finish();
         }
     };
 }

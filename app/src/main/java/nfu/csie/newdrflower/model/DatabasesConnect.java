@@ -1,6 +1,9 @@
 package nfu.csie.newdrflower.model;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -34,9 +37,10 @@ public class DatabasesConnect {
     private HandlerThread mThread;
     //繁重執行序用的 (時間超過3秒的)
     private android.os.Handler mThreadHandler;
+    ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
 
-    public  DatabasesConnect(){
-        ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>;
+
+    public ArrayList<HashMap<String,Object>> DBConnectPicReturn(){
         mThread = new HandlerThread("net");
         mThread.start();
 
@@ -54,7 +58,7 @@ public class DatabasesConnect {
                     @Override
                     public void run()
                     {
-                        user = flowerDataListView(flowerdatajsonString);
+                        flowerDataListView(flowerdatajsonString);
                     }
                 });
             }
@@ -93,7 +97,7 @@ public class DatabasesConnect {
         return result;
     }
 
-    public final void flowerDataListView(String input)
+    private final void flowerDataListView(String input)
     {
 	/*
 	 * SQL 結果有多筆資料時使用JSONArray
@@ -109,15 +113,19 @@ public class DatabasesConnect {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
                 HashMap<String, Object> h2 = new HashMap<String, Object>();
                 h2.put("order",jsonData.getString("_Order"));
-                h2.put("picture",jsonData.getString("_Picture"));
+                byte bytes[] = Base64.decode(user.get(i).get("_Picture").toString(), Base64.DEFAULT);
+                Bitmap a = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                h2.put("picture",a);
                 users.add(h2);
             }
+            user = users;
         }
         catch (JSONException e)
         {
             // TODO 自動產生的 catch 區塊
             e.printStackTrace();
         }
+
     }
 
 }
