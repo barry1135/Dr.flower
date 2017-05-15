@@ -37,12 +37,16 @@ public class DatabasesConnect {
     private HandlerThread mThread;
     //繁重執行序用的 (時間超過3秒的)
     private android.os.Handler mThreadHandler;
-    ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
+
+    public DatabasesConnect(){
+        mThread = new HandlerThread("net");
+        mThread.start();
+    }
 
 
     public ArrayList<HashMap<String,Object>> DBConnectPicReturn(){
-        mThread = new HandlerThread("net");
-        mThread.start();
+
 
         mThreadHandler = new Handler(mThread.getLooper());
         mThreadHandler.post(new Runnable()
@@ -59,10 +63,12 @@ public class DatabasesConnect {
                     public void run()
                     {
                         flowerDataListView(flowerdatajsonString);
+
                     }
                 });
             }
         });
+        Log.d("text2","DBconnectPicReturn");
         return user;
     }
     //ArrayList<HashMap<String, Object>>
@@ -73,7 +79,7 @@ public class DatabasesConnect {
         try
         {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://172.20.10.2/flowerdata.php");
+            HttpPost post = new HttpPost("http://172.20.10.2/flowerData.php");
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("category", query));
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -109,14 +115,16 @@ public class DatabasesConnect {
             JSONArray jsonArray = new JSONArray(input);
             ArrayList<HashMap<String, Object>> users = new ArrayList<HashMap<String, Object>>();
             for (int i = 0; i < jsonArray.length(); i++)
+
             {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
                 HashMap<String, Object> h2 = new HashMap<String, Object>();
                 h2.put("order",jsonData.getString("_Order"));
-                byte bytes[] = Base64.decode(user.get(i).get("_Picture").toString(), Base64.DEFAULT);
+                byte bytes[] = Base64.decode(jsonData.getString("_Picture"), Base64.DEFAULT);
                 Bitmap a = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 h2.put("picture",a);
                 users.add(h2);
+
             }
             user = users;
         }

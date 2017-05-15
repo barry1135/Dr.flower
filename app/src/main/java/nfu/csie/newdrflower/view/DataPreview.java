@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.controller.DataPreviewActivity;
@@ -32,9 +33,9 @@ public class DataPreview {
         setlisten();
     }
 
-    public void setImageView(ArrayList<Bitmap> pic){
+    public void setImageView(ArrayList<HashMap<String, Object>> pic){
         for(int i = 0;i < 12 ;i++,now++){
-            IMGS[i].setImageBitmap(pic.get(now));
+            IMGS[i].setImageBitmap((Bitmap) pic.get(now).get("_Picture"));
         }
 
     }

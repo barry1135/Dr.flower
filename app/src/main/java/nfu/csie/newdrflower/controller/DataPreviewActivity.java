@@ -3,12 +3,14 @@ package nfu.csie.newdrflower.controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.util.Log;
 import android.view.Window;
-import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import nfu.csie.newdrflower.R;
-import nfu.csie.newdrflower.model.DBPicShow;
+import nfu.csie.newdrflower.model.*;
 import nfu.csie.newdrflower.view.DataPreview;
 
 /**
@@ -20,22 +22,32 @@ public class DataPreviewActivity extends Activity {
     int page = 1,max,res,now=0,id,order,t;
     private DataPreview Dataview;
     private DBPicShow getPic;
+    private ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
+    private DatabasesConnect DBConnect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dataview);
-
         Dataview = new DataPreview(this);
-        getPic = new DBPicShow();
-
+        //getPic = new DBPicShow();
+        DBConnect = new DatabasesConnect();
+        Log.d("text2","past");
         show();
 
     }
 
     private void show(){
-        Dataview.setImageView(getPic.Picget());
+        try {
+            user = DBConnect.DBConnectPicReturn();
+            DBConnect.wait();
+            Dataview.setImageView(user);
+        }
+        catch (Exception e)
+        {
+            Log.e("log_tag", e.toString());
+        }
     }
 
 
