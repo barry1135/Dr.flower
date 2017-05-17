@@ -1,6 +1,7 @@
 package nfu.csie.newdrflower.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -17,12 +18,13 @@ import nfu.csie.newdrflower.controller.DataPreviewActivity;
  * Created by barry on 2017/5/11.
  */
 
-public class DataPreview {
+public class DataPreview{
 
     private Activity activity;
     private ImageView NextBT,LastBT,BackMain;
     private ImageView[] IMGS = new ImageView[12];
     int page = 1,max,res,now=0,id,order,t;
+    ArrayList<HashMap<String, Object>> PicData = new ArrayList<HashMap<String, Object>>();
 
 
 
@@ -31,13 +33,50 @@ public class DataPreview {
         this.activity = activity;
         initView();
         setlisten();
+        BackMain.setVisibility(View.INVISIBLE);
+        LastBT.setVisibility(View.INVISIBLE);
+        NextBT.setVisibility(View.INVISIBLE);
     }
 
-    public void setImageView(ArrayList<HashMap<String, Object>> pic){
+    public void FirstsetImageView(ArrayList<HashMap<String, Object>> pic){
         for(int i = 0;i < 12 ;i++,now++){
-            IMGS[i].setImageBitmap((Bitmap) pic.get(now).get("_Picture"));
+            IMGS[i].setImageBitmap((Bitmap) pic.get(now).get("picture"));
+            IMGS[i].setVisibility(View.VISIBLE);
+            max = pic.size() / 12;
+            res = pic.size() % 12;
         }
+        PicData = pic;
+        BackMain.setVisibility(View.VISIBLE);
+        NextBT.setVisibility(View.VISIBLE);
+    }
 
+    private  void setImageView(){
+        setviewVisible();
+        if(page <= max)
+        {
+            for(int i=0; now<12*page; now++,i++)
+            {
+                IMGS[i].setImageBitmap((Bitmap) PicData.get(now).get("picture"));
+                IMGS[i].setVisibility(View.VISIBLE);
+            }
+        }
+        else
+        {
+            for(int i=0;now < ((page-1)*12+res);now++,i++)
+            {
+                IMGS[i].setImageBitmap((Bitmap) PicData.get(now).get("picture"));
+                IMGS[i].setVisibility(View.VISIBLE);
+            }
+            now = page*12;
+        }
+    }
+
+    private void setviewVisible(){
+        for(int i =0 ; i<12;i++)
+        {
+            IMGS[i].setVisibility(View.INVISIBLE);
+
+        }
     }
 
     private void setlisten() {
@@ -74,70 +113,81 @@ public class DataPreview {
             switch (v.getId()) {
                 case 0:
                     order = (page - 1) * 12 + 1;
-                    backorder(order);
+
                     break;
                 case 1:
                     order = (page - 1) * 12 + 2;
-                    backorder(order);
+
                     break;
                 case 2:
                     order = (page - 1) * 12 + 3;
-                    backorder(order);
+
                     break;
                 case 3:
                     order = (page - 1) * 12 + 4;
-                    backorder(order);
+
                     break;
                 case 4:
                     order = (page - 1) * 12 + 5;
-                    backorder(order);
+
                     break;
                 case 5:
                     order = (page - 1) * 12 + 6;
-                    backorder(order);
+
                     break;
                 case 6:
                     order = (page - 1) * 12 + 7;
-                    backorder(order);
+
                     break;
                 case 7:
                     order = (page - 1) * 12 + 8;
-                    backorder(order);
+
                     break;
                 case 8:
                     order = (page - 1) * 12 + 9;
-                    backorder(order);
+
                     break;
                 case 9:
                     order = (page - 1) * 12 + 10;
-                    backorder(order);
+
                     break;
                 case 10:
                     order = (page - 1) * 12 + 11;
-                    backorder(order);
+
                     break;
                 case 11:
                     order = (page - 1) * 12 + 12;
-                    backorder(order);
+
                     break;
             }
         }
     };
 
-    private int backorder(int order){
-        this.order = order;
-        return order;
-    }
 
     private  ImageView.OnClickListener NextBTListener = new ImageView.OnClickListener(){
         public void onClick(View v){
-
+            if(page <= max){
+                if(page == max) {
+                    NextBT.setVisibility(View.INVISIBLE);
+                    LastBT.setVisibility(View.VISIBLE);
+                }
+                page++;
+                setImageView();
+            }
         }
     };
 
     private ImageView.OnClickListener LastBTListener = new ImageView.OnClickListener(){
         public void onClick(View v){
-
+            if(page > 1){
+                now = now - 24;
+                page--;
+                setImageView();
+                if(page == 1) {
+                    LastBT.setVisibility(View.INVISIBLE);
+                    NextBT.setVisibility(View.VISIBLE);
+                }
+            }
         }
     };
 
@@ -147,3 +197,5 @@ public class DataPreview {
         }
     };
 }
+
+

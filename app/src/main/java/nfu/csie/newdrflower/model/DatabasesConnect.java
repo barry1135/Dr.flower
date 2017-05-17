@@ -1,6 +1,7 @@
 package nfu.csie.newdrflower.model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Base64;
@@ -39,41 +40,18 @@ public class DatabasesConnect {
     private android.os.Handler mThreadHandler;
     private ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
 
-    public DatabasesConnect(){
-        mThread = new HandlerThread("net");
-        mThread.start();
-    }
 
 
     public ArrayList<HashMap<String,Object>> DBConnectPicReturn(){
 
+        String flowerdatajsonString = PostflowerData("society");
+        flowerDataListView(flowerdatajsonString);
 
-        mThreadHandler = new Handler(mThread.getLooper());
-        mThreadHandler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                final String flowerdatajsonString = PostflowerData("society");
-
-                mUI_Handler.post(new Runnable()
-                {
-
-                    @Override
-                    public void run()
-                    {
-                        flowerDataListView(flowerdatajsonString);
-
-                    }
-                });
-            }
-        });
-        Log.d("text2","DBconnectPicReturn");
         return user;
     }
     //ArrayList<HashMap<String, Object>>
 
-    private String PostflowerData(String query)
+    public String PostflowerData(String query)
     {
         String result = "";
         try
@@ -103,7 +81,7 @@ public class DatabasesConnect {
         return result;
     }
 
-    private final void flowerDataListView(String input)
+    private void flowerDataListView(String input)
     {
 	/*
 	 * SQL 結果有多筆資料時使用JSONArray
@@ -114,16 +92,22 @@ public class DatabasesConnect {
         {
             JSONArray jsonArray = new JSONArray(input);
             ArrayList<HashMap<String, Object>> users = new ArrayList<HashMap<String, Object>>();
-            for (int i = 0; i < jsonArray.length(); i++)
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            HashMap<String, Object> h2 = new HashMap<String, Object>();
+            h2.put("id", jsonData.getString("_id"));
+            h2.put("picture", setPicSize(jsonData.getString("_Picture")));
+            users.add(h2);
+            for (int i = 1; i < jsonArray.length(); i++)
 
             {
-                JSONObject jsonData = jsonArray.getJSONObject(i);
-                HashMap<String, Object> h2 = new HashMap<String, Object>();
-                h2.put("order",jsonData.getString("_Order"));
-                byte bytes[] = Base64.decode(jsonData.getString("_Picture"), Base64.DEFAULT);
-                Bitmap a = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                h2.put("picture",a);
-                users.add(h2);
+                jsonData = jsonArray.getJSONObject(i);
+                if(Integer.parseInt(jsonArray.getJSONObject(i).getString("_id")) != Integer.parseInt(jsonArray.getJSONObject(i-1).getString("_id"))) {
+                    h2 = new HashMap<String, Object>();
+                    h2.put("id", jsonData.getString("_id"));
+
+                    h2.put("picture", setPicSize(jsonData.getString("_Picture")));
+                    users.add(h2);
+                }
 
             }
             user = users;
@@ -134,6 +118,21 @@ public class DatabasesConnect {
             e.printStackTrace();
         }
 
+    }
+
+    private Bitmap setPicSize(String data){
+        byte bytes[] = Base64.decode(data, Base64.DEFAULT);
+        Bitmap a = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        int width = a.getWidth();
+        int height = a.getHeight();
+        int newwidth = 100;
+        int newheight = 100;
+        float scaleWidth = ((float) newwidth) / width;
+        float scaleHeight = ((float) newheight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap a1 = Bitmap.createBitmap(a, 0, 0, width, height, matrix, true);
+        return a1;
     }
 
 }
