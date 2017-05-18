@@ -43,8 +43,15 @@
         </activity>
         <activity
             android:name="nfu.csie.newdrflower.controller.DataPreviewActivity"
-            android:label="@string/title_activity_camera"
+            android:label="@string/Data_Preview"
             android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name=".controller.DataInfoActivity"
+            android:label="@string/Data_Info"
+            android:screenOrientation="portrait">
+
         </activity>
 
     </application>

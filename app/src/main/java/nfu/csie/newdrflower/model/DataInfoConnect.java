@@ -1,4 +1,5 @@
 package nfu.csie.newdrflower.model;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -13,6 +14,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -20,24 +24,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
- * Created by barry on 2017/5/10.
+ * Created by barry on 2017/5/18.
  */
 
-public class DatabasesConnect {
+public class DataInfoConnect {
 
     private ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
 
 
-
-    public ArrayList<HashMap<String,Object>> DBConnectPicReturn(){
-
+    public ArrayList<HashMap<String,Object>> DBInforeturn(int order){
         String flowerdatajsonString = PostflowerData("society");
-        flowerDataListView(flowerdatajsonString);
+         flowerDataListView(flowerdatajsonString,order);
 
         return user;
     }
@@ -49,7 +48,7 @@ public class DatabasesConnect {
         try
         {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://172.20.10.2/flowerData.php");
+            HttpPost post = new HttpPost("http://172.20.10.2/flowerInfo.php");
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("category", query));
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -73,7 +72,7 @@ public class DatabasesConnect {
         return result;
     }
 
-    private void flowerDataListView(String input)
+    private void flowerDataListView(String input,int order)
     {
 	/*
 	 * SQL 結果有多筆資料時使用JSONArray
@@ -84,24 +83,15 @@ public class DatabasesConnect {
         {
             JSONArray jsonArray = new JSONArray(input);
             ArrayList<HashMap<String, Object>> users = new ArrayList<HashMap<String, Object>>();
-            JSONObject jsonData = jsonArray.getJSONObject(0);
+            JSONObject jsonData = jsonArray.getJSONObject(order);
             HashMap<String, Object> h2 = new HashMap<String, Object>();
-            h2.put("id", jsonData.getString("_id"));
-            h2.put("picture", setPicSize(jsonData.getString("_Picture")));
+            h2.put("name", jsonData.getString("_Name"));
+            h2.put("scientificname", jsonData.getString("_ScientificName"));
+            h2.put("englishname", jsonData.getString("_EnglishName"));
+            h2.put("othername", jsonData.getString("_OtherName"));
+            h2.put("kind", jsonData.getString("_Kind"));
+            h2.put("feature", jsonData.getString("_Feature"));
             users.add(h2);
-            for (int i = 1; i < jsonArray.length(); i++)
-
-            {
-                jsonData = jsonArray.getJSONObject(i);
-                if(Integer.parseInt(jsonArray.getJSONObject(i).getString("_id")) != Integer.parseInt(jsonArray.getJSONObject(i-1).getString("_id"))) {
-                    h2 = new HashMap<String, Object>();
-                    h2.put("id", jsonData.getString("_id"));
-
-                    h2.put("picture", setPicSize(jsonData.getString("_Picture")));
-                    users.add(h2);
-                }
-
-            }
             user = users;
         }
         catch (JSONException e)
@@ -110,21 +100,6 @@ public class DatabasesConnect {
             e.printStackTrace();
         }
 
-    }
-
-    private Bitmap setPicSize(String data){
-        byte bytes[] = Base64.decode(data, Base64.DEFAULT);
-        Bitmap a = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        int width = a.getWidth();
-        int height = a.getHeight();
-        int newwidth = 100;
-        int newheight = 100;
-        float scaleWidth = ((float) newwidth) / width;
-        float scaleHeight = ((float) newheight) / height;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap a1 = Bitmap.createBitmap(a, 0, 0, width, height, matrix, true);
-        return a1;
     }
 
 }

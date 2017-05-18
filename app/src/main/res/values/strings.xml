@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">NewDr.flower</string>
-    <string name="title_activity_camera">Camera</string>
+    <string name="Data_Preview">DataPreview</string>
+    <string name="Data_Info">DataInfo</string>
 </resources>

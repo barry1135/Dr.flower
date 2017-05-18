@@ -7,11 +7,14 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.content.Intent;
+import java.io.ByteArrayOutputStream;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.controller.DataInfoActivity;
 import nfu.csie.newdrflower.controller.DataPreviewActivity;
 
 /**
@@ -80,10 +83,10 @@ public class DataPreview{
     }
 
     private void setlisten() {
-        for(int i = 1;i < IMGS.length;i++)
+        for(int i = 0;i < IMGS.length;i++)
         {
             IMGS[i].setOnClickListener(tuch);
-            //IMGS[i].setId(i);
+            IMGS[i].setId(i);
         }
         NextBT.setOnClickListener(NextBTListener);
         LastBT.setOnClickListener(LastBTListener);
@@ -112,54 +115,47 @@ public class DataPreview{
         public void onClick(View v) {
             switch (v.getId()) {
                 case 0:
-                    order = (page - 1) * 12 + 1;
-
+                    order = (page - 1) * 12;
                     break;
                 case 1:
-                    order = (page - 1) * 12 + 2;
-
+                    order = (page - 1) * 12 + 1;
                     break;
                 case 2:
-                    order = (page - 1) * 12 + 3;
-
+                    order = (page - 1) * 12 + 2;
                     break;
                 case 3:
-                    order = (page - 1) * 12 + 4;
-
+                    order = (page - 1) * 12 + 3;
                     break;
                 case 4:
-                    order = (page - 1) * 12 + 5;
-
+                    order = (page - 1) * 12 + 4;
                     break;
                 case 5:
-                    order = (page - 1) * 12 + 6;
-
+                    order = (page - 1) * 12 + 5;
                     break;
                 case 6:
-                    order = (page - 1) * 12 + 7;
-
+                    order = (page - 1) * 12 + 6;
                     break;
                 case 7:
-                    order = (page - 1) * 12 + 8;
-
+                    order = (page - 1) * 12 + 7;
                     break;
                 case 8:
-                    order = (page - 1) * 12 + 9;
-
+                    order = (page - 1) * 12 + 8;
                     break;
                 case 9:
-                    order = (page - 1) * 12 + 10;
-
+                    order = (page - 1) * 12 + 9;
                     break;
                 case 10:
-                    order = (page - 1) * 12 + 11;
-
+                    order = (page - 1) * 12 + 10;
                     break;
                 case 11:
-                    order = (page - 1) * 12 + 12;
-
+                    order = (page - 1) * 12 + 11;
                     break;
             }
+            Intent it = new Intent();
+            it.setClass(activity,DataInfoActivity.class);
+            it.putExtra("order",order);
+            it.putExtra("Pic",Bitmap2Bytes((Bitmap) PicData.get(order).get("picture")));
+            activity.startActivity(it);
         }
     };
 
@@ -196,6 +192,12 @@ public class DataPreview{
             activity.finish();
         }
     };
+
+    private byte[] Bitmap2Bytes(Bitmap bm){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
 }
 
 
