@@ -39,7 +39,7 @@ public class DataPreviewActivity extends Activity {
         setContentView(R.layout.dataview);
         Dataview = new DataPreview(this);
         DBConnect = new DatabasesConnect();
-        mThread = new HandlerThread("net");
+        mThread = new HandlerThread("datapreview");
         mThread.start();
         DialogWaitView();
         show();
