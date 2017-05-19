@@ -37,7 +37,7 @@ public class DataInfoActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.datainfo);
+        setContentView(R.layout.flower_data_info);
 
         Bundle bData = this.getIntent().getExtras();
         order = bData.getInt("order");
@@ -46,7 +46,7 @@ public class DataInfoActivity extends Activity {
         DataInfoview = new DataInfoView(this);
         DBInfoConnect = new DataInfoConnect();
 
-        mThread = new HandlerThread("datainfo");
+        mThread = new HandlerThread("flower_data_info");
         mThread.start();
         DialogWaitView();
         show();

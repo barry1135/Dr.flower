@@ -115,16 +115,7 @@ public class DatabasesConnect {
     private Bitmap setPicSize(String data){
         byte bytes[] = Base64.decode(data, Base64.DEFAULT);
         Bitmap a = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        int width = a.getWidth();
-        int height = a.getHeight();
-        int newwidth = 100;
-        int newheight = 100;
-        float scaleWidth = ((float) newwidth) / width;
-        float scaleHeight = ((float) newheight) / height;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap a1 = Bitmap.createBitmap(a, 0, 0, width, height, matrix, true);
-        return a1;
+        return a;
     }
 
 }

@@ -19,17 +19,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/pic"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="7"
                 android:text="名稱：" />
 
             <TextView
@@ -37,21 +39,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:padding="5dp"
                 android:text=""
+                android:maxLines="1"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/tw1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="7"
                 android:text="學名：" />
 
             <TextView
@@ -59,21 +64,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:padding="5dp"
                 android:text=""
+                android:maxLines="1"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/tw2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="7"
                 android:text="英名：" />
 
             <TextView
@@ -81,21 +89,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:padding="5dp"
                 android:text=""
+                android:maxLines="1"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/tw3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="7"
                 android:text="科屬：" />
 
             <TextView
@@ -103,21 +114,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:padding="5dp"
                 android:text=""
+                android:maxLines="1"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/tw4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="7"
                 android:text="別名：" />
 
             <TextView
@@ -125,15 +139,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:padding="5dp"
                 android:text=""
+                android:maxLines="1"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/tw5"
@@ -143,19 +159,41 @@
                 android:text="特徵：" />
         </LinearLayout>
 
-        <ScrollView
-            android:id="@+id/scrollView1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="30dp"
+            android:layout_weight="0.94">
 
-            <TextView
-                android:id="@+id/feature"
+            <ScrollView
+                android:id="@+id/scrollView1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp" />
-        </ScrollView>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/feature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </ScrollView>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_weight="0.05"
+            android:text="上一頁" />
+
 
     </LinearLayout>
+
+
 
     <ImageView
         android:id="@+id/pic"
@@ -164,10 +202,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="上一頁" />
+
 
 </RelativeLayout>

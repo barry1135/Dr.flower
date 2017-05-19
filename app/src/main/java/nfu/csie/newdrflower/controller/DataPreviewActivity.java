@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Window;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class DataPreviewActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dataview);
+        setContentView(R.layout.flower_pic_preview);
         Dataview = new DataPreview(this);
         DBConnect = new DatabasesConnect();
         mThread = new HandlerThread("datapreview");

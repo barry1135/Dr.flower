@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,7 +44,8 @@ public class DataPreview{
 
     public void FirstsetImageView(ArrayList<HashMap<String, Object>> pic){
         for(int i = 0;i < 12 ;i++,now++){
-            IMGS[i].setImageBitmap((Bitmap) pic.get(now).get("picture"));
+            Bitmap PicSize = SetPic((Bitmap) pic.get(now).get("picture"));
+            IMGS[i].setImageBitmap(PicSize);
             IMGS[i].setVisibility(View.VISIBLE);
             max = pic.size() / 12;
             res = pic.size() % 12;
@@ -59,7 +61,8 @@ public class DataPreview{
         {
             for(int i=0; now<12*page; now++,i++)
             {
-                IMGS[i].setImageBitmap((Bitmap) PicData.get(now).get("picture"));
+                Bitmap PicSize = SetPic((Bitmap) PicData.get(now).get("picture"));
+                IMGS[i].setImageBitmap(PicSize);
                 IMGS[i].setVisibility(View.VISIBLE);
             }
         }
@@ -67,7 +70,8 @@ public class DataPreview{
         {
             for(int i=0;now < ((page-1)*12+res);now++,i++)
             {
-                IMGS[i].setImageBitmap((Bitmap) PicData.get(now).get("picture"));
+                Bitmap PicSize = SetPic((Bitmap) PicData.get(now).get("picture"));
+                IMGS[i].setImageBitmap(PicSize);
                 IMGS[i].setVisibility(View.VISIBLE);
             }
             now = page*12;
@@ -197,6 +201,19 @@ public class DataPreview{
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
+    }
+
+    private Bitmap SetPic(Bitmap a){
+        int width = a.getWidth();
+        int height = a.getHeight();
+        int newwidth = IMGS[0].getWidth();
+        int newheight = IMGS[0].getHeight();
+        float scaleWidth = ((float) newwidth) / width;
+        float scaleHeight = ((float) newheight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap a1 = Bitmap.createBitmap(a, 0, 0, width, height, matrix, true);
+        return a1;
     }
 }
 
