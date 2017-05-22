@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,7 +20,7 @@ import nfu.csie.newdrflower.R;
 
 public class DataInfoView {
     private Activity activity;
-    private ImageView iv;
+    private ImageView pic;
     private TextView Name,ScientificName,EnglishName,OtherName,Kind,Feature;
     private Button back;
 
@@ -33,7 +32,7 @@ public class DataInfoView {
     }
 
     public void SetInfoView(ArrayList<HashMap<String, Object>> PicInfo,byte[] picdata){
-        iv.setImageBitmap(set(picdata));
+        pic.setImageBitmap(set(picdata));
         Name.setText(PicInfo.get(0).get("name").toString());
         ScientificName.setText(PicInfo.get(0).get("scientificname").toString());
         EnglishName.setText(PicInfo.get(0).get("englishname").toString());
@@ -48,7 +47,7 @@ public class DataInfoView {
     }
 
     private void initview() {
-        iv = (ImageView) activity.findViewById(R.id.pic);
+        pic = (ImageView) activity.findViewById(R.id.pic);
         Name = (TextView) activity.findViewById(R.id.name);
         ScientificName = (TextView) activity.findViewById(R.id.scientificName);
         EnglishName = (TextView) activity.findViewById(R.id.englishname);
