@@ -51,7 +51,12 @@
             android:name=".controller.DataInfoActivity"
             android:label="@string/Data_Info"
             android:screenOrientation="portrait">
+        </activity>
 
+        <activity
+            android:name=".controller.CameraActivity"
+            android:label="@string/Camera_Preview"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>

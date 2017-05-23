@@ -40,6 +40,7 @@ public class CameraView  {
         setlisten();
 
         filter.setVisibility(View.GONE);
+        metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         maxwidth = metrics.widthPixels;
         maxheight = metrics.heightPixels;
@@ -124,4 +125,11 @@ public class CameraView  {
         return sfv;
     }
 
+    public int getMaxwidth(){
+        return maxwidth;
+    }
+
+    public int getMaxheight() {
+        return maxheight;
+    }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.controller.CameraActivity;
 import nfu.csie.newdrflower.controller.DataPreviewActivity;
 import nfu.csie.newdrflower.controller.StartActivity;
 
@@ -41,7 +42,8 @@ public class StartView {
     private ImageView.OnClickListener EnterListener = new ImageView.OnClickListener(){
         @Override
         public void onClick(View v){
-
+            Intent it = new Intent(activity, CameraActivity.class);
+            activity.startActivity(it);
         }
     };
 
