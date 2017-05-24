@@ -3,6 +3,8 @@ package nfu.csie.newdrflower.controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -30,6 +32,16 @@ public class StartActivity extends Activity {
         startview = new StartView(this);
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO Auto-generated method stub
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.filter, menu);
+
+
+        return true;
     }
 
 

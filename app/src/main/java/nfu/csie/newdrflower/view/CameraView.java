@@ -63,63 +63,7 @@ public class CameraView  {
         }
     };
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO Auto-generated method stub
 
-        menu.add(0, MENU_1, 0, "濾鏡1");
-        menu.add(0, MENU_2, 0, "濾鏡2");
-        menu.add(0, MENU_3, 0, "濾鏡3");
-        menu.add(0, MENU_4, 0, "濾鏡4");
-
-        return activity.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
-
-        Bitmap bm;
-        int width;
-        int height;
-        float scaleWidth;
-        float scaleHeight;
-        Matrix matrix;
-        switch (item.getItemId()) {
-            case MENU_1:
-                bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.a1);
-                width = bm.getWidth();
-                height = bm.getHeight();
-                scaleWidth = ((float) maxwidth) / width;
-                scaleHeight = ((float) maxheight) / height;
-                matrix = new Matrix();
-                matrix.postScale(scaleWidth, scaleHeight);
-                bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
-                filter.setImageBitmap(bm);
-                filter.setVisibility(View.VISIBLE);
-                select = 1;
-                break;
-            case MENU_2:
-                bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.a2);
-                width = bm.getWidth();
-                height = bm.getHeight();
-                scaleWidth = ((float) maxwidth) / width;
-                scaleHeight = ((float) maxwidth) / height;
-                matrix = new Matrix();
-                matrix.postScale(scaleWidth, scaleHeight);
-                bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
-                filter.setImageBitmap(bm);
-                filter.setVisibility(View.VISIBLE);
-                select = 2;
-                break;
-            case MENU_3:
-                select = 3;
-                break;
-            case MENU_4:
-                select = 4;
-                break;
-        }
-
-        return activity.onOptionsItemSelected(item);
-    }
 
     public SurfaceView getSfv(){
         return sfv;
@@ -131,5 +75,9 @@ public class CameraView  {
 
     public int getMaxheight() {
         return maxheight;
+    }
+
+    public ImageView getFilter(){
+        return filter;
     }
 }

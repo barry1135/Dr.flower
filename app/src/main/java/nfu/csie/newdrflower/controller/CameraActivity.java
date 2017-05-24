@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.model.EnableCamera;
@@ -29,6 +34,15 @@ public class CameraActivity extends Activity {
     private EnableCamera enableCamera;
     private SurfaceView sfv;
     private byte[] picdat;
+    private Camera mCamera;
+    private boolean focus = false;
+
+    private static final int MENU_1 = Menu.FIRST,
+            MENU_2 = Menu.FIRST + 1,
+            MENU_3 = Menu.FIRST + 2,
+            MENU_4 = Menu.FIRST + 3;
+
+    int select=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +50,7 @@ public class CameraActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         requestWindowFeature(Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
 
         setContentView(R.layout.camera);
         cameraview = new CameraView(this);
@@ -47,6 +62,19 @@ public class CameraActivity extends Activity {
 
 
         picdat = null;
+
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        }
+        catch (Exception e) {
+            // presumably, not relevant
+        }
 
     }
 
@@ -81,17 +109,93 @@ public class CameraActivity extends Activity {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 50, stream );
             picdat = stream.toByteArray();
-
-
-
         }
 
     };
 
-    private ImageView.OnClickListener press = new ImageView.OnClickListener(){
-        public void onClick(View v){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO Auto-generated method stub
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.filter, menu);
 
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+
+        Bitmap bm;
+        int width;
+        int height;
+        float scaleWidth;
+        float scaleHeight;
+        Matrix matrix;
+        switch (item.getItemId()) {
+            case R.id.MENU_1:
+                bm = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
+                width = bm.getWidth();
+                height = bm.getHeight();
+                scaleWidth = ((float) cameraview.getMaxwidth()) / width;
+                scaleHeight = ((float) cameraview.getMaxheight()) / height;
+                matrix = new Matrix();
+                matrix.postScale(scaleWidth, scaleHeight);
+                bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
+                cameraview.getFilter().setImageBitmap(bm);
+                cameraview.getFilter().setVisibility(View.VISIBLE);
+                select = 1;
+                break;
+            case R.id.MENU_2:
+                bm = BitmapFactory.decodeResource(getResources(), R.drawable.a2);
+                width = bm.getWidth();
+                height = bm.getHeight();
+                scaleWidth = ((float) cameraview.getMaxwidth()) / width;
+                scaleHeight = ((float) cameraview.getMaxheight()) / height;
+                matrix = new Matrix();
+                matrix.postScale(scaleWidth, scaleHeight);
+                bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
+                cameraview.getFilter().setImageBitmap(bm);
+                cameraview.getFilter().setVisibility(View.VISIBLE);
+                select = 2;
+                break;
+            case R.id.MENU_3:
+                select = 3;
+                break;
+            case R.id.MENU_4:
+                select = 4;
+                break;
         }
-    };
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected void onPause() {
+        mCamera.stopPreview();
+        mCamera.release();
+        mCamera = null;
+        super.onPause();
+    }
+
+    protected void onResume() {
+
+
+        mCamera = Camera.open();
+        enableCamera.set(this, mCamera);
+        cameraview.getFilter().setVisibility(View.INVISIBLE);
+
+        super.onResume();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            if(false)
+                mCamera.autoFocus(enableCamera.onCamAutoFocus);
+        }
+        return super.onTouchEvent(event);
+    }
+
 
 }
