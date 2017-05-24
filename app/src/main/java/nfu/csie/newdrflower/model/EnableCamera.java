@@ -2,7 +2,6 @@ package nfu.csie.newdrflower.model;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
-import android.hardware.camera2.CameraAccessException;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
