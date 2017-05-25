@@ -1,5 +1,6 @@
 package nfu.csie.newdrflower.view;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
@@ -23,6 +24,7 @@ public class StartView {
 
         initview();
         setlisten();
+
     }
 
 

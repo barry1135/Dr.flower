@@ -13,6 +13,8 @@ import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.model.DatabasesConnect;
 import nfu.csie.newdrflower.view.StartView;
 
+import android.app.ActionBar;
+
 
 /**
  * Created by barry on 2017/5/8.
@@ -26,23 +28,15 @@ public class StartActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.start);
 
         startview = new StartView(this);
 
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.filter, menu);
 
-
-        return true;
-    }
 
 
 }

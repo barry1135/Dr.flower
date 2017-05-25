@@ -1,12 +1,9 @@
 package nfu.csie.newdrflower.view;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +29,7 @@ public class CameraView  {
     int select=0;
     private DisplayMetrics metrics;
     int maxwidth,maxheight;
+    private ActionBar mActionBar;
 
     public CameraView (Activity activity){
         this.activity = activity;
@@ -44,6 +42,8 @@ public class CameraView  {
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         maxwidth = metrics.widthPixels;
         maxheight = metrics.heightPixels;
+
+        mActionBar = activity.getActionBar();
     }
 
     private void setlisten() {
@@ -79,5 +79,9 @@ public class CameraView  {
 
     public ImageView getFilter(){
         return filter;
+    }
+
+    public void hideactionbar(){
+        mActionBar.hide();
     }
 }

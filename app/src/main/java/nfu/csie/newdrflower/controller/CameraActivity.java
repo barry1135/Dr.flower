@@ -47,7 +47,7 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         requestWindowFeature(Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -63,18 +63,7 @@ public class CameraActivity extends Activity {
 
         picdat = null;
 
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
 
-            if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        }
-        catch (Exception e) {
-            // presumably, not relevant
-        }
 
     }
 
@@ -113,14 +102,14 @@ public class CameraActivity extends Activity {
 
     };
 
-    @Override
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // TODO Auto-generated method stub
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.filter, menu);
 
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -196,6 +185,7 @@ public class CameraActivity extends Activity {
         }
         return super.onTouchEvent(event);
     }
+
 
 
 }

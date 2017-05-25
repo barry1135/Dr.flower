@@ -32,9 +32,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:allowBackup="true"
             android:name="nfu.csie.newdrflower.controller.StartActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,7 +57,8 @@
         <activity
             android:name=".controller.CameraActivity"
             android:label="@string/Camera_Preview"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light">
         </activity>
 
     </application>
