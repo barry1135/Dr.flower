@@ -19,7 +19,7 @@ public class StartView {
     private Activity activity;
     private ImageView EnterButton,ExitButton,DataButton;
 
-    public StartView (StartActivity activity){
+    public StartView (Activity activity){
         this.activity = activity;
 
         initview();

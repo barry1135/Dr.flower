@@ -33,7 +33,7 @@ public class DataPreview{
 
 
 
-    public DataPreview(DataPreviewActivity activity){
+    public DataPreview(Activity activity){
         this.activity = activity;
         initView();
         setlisten();

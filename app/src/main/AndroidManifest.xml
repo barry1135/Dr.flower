@@ -9,6 +9,13 @@
         android:targetSdkVersion="13" />
 
     <supports-screens
+    android:largeScreens="true"
+    android:normalScreens="true"
+    android:resizeable="true"
+    android:smallScreens="true"
+    android:xlargeScreens="true" />
+
+    <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
@@ -57,8 +64,13 @@
         <activity
             android:name=".controller.CameraActivity"
             android:label="@string/Camera_Preview"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light">
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+        android:name=".controller.PicPreviewActivuty"
+        android:label="@string/Pic_Preview"
+        android:screenOrientation="portrait">
         </activity>
 
     </application>

@@ -2,6 +2,8 @@ package nfu.csie.newdrflower.view;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.SurfaceView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 
 import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.controller.PicPreviewActivuty;
 
 /**
  * Created by barry on 2017/5/22.
@@ -22,32 +25,18 @@ public class CameraView  {
     private ImageView filter,button;
     private TextView prompt;
     private boolean focus = false;
-    private static final int MENU_1 = Menu.FIRST,
-            MENU_2 = Menu.FIRST + 1,
-            MENU_3 = Menu.FIRST + 2,
-            MENU_4 = Menu.FIRST + 3;
-    int select=0;
     private DisplayMetrics metrics;
     int maxwidth,maxheight;
-    private ActionBar mActionBar;
 
     public CameraView (Activity activity){
         this.activity = activity;
 
         initview();
-        setlisten();
 
-        filter.setVisibility(View.GONE);
         metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         maxwidth = metrics.widthPixels;
         maxheight = metrics.heightPixels;
-
-        mActionBar = activity.getActionBar();
-    }
-
-    private void setlisten() {
-        button.setOnClickListener(press);
     }
 
     private void initview() {
@@ -57,11 +46,15 @@ public class CameraView  {
         prompt = (TextView) activity.findViewById(R.id.textView1);
     }
 
-    private ImageView.OnClickListener press = new ImageView.OnClickListener(){
-        public void onClick(View v){
 
-        }
-    };
+    public void change(byte[] pic){
+        Intent it = new Intent(activity, PicPreviewActivuty.class);
+        Bundle bData = new Bundle();
+        bData.putByteArray("pic", pic);
+        it.putExtras(bData);
+        activity.startActivity(it);
+        activity.finish();
+    }
 
 
 
@@ -81,7 +74,8 @@ public class CameraView  {
         return filter;
     }
 
-    public void hideactionbar(){
-        mActionBar.hide();
+    public ImageView getButton(){
+        return button;
     }
+
 }

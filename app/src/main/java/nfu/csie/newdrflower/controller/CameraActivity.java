@@ -8,18 +8,14 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Field;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.model.EnableCamera;
@@ -37,12 +33,6 @@ public class CameraActivity extends Activity {
     private Camera mCamera;
     private boolean focus = false;
 
-    private static final int MENU_1 = Menu.FIRST,
-            MENU_2 = Menu.FIRST + 1,
-            MENU_3 = Menu.FIRST + 2,
-            MENU_4 = Menu.FIRST + 3;
-
-    int select=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +49,7 @@ public class CameraActivity extends Activity {
 
         enableCamera = new EnableCamera(this,sfv);
 
-
+        cameraview.getButton().setOnClickListener(press);
 
         picdat = null;
 
@@ -98,22 +88,14 @@ public class CameraActivity extends Activity {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 50, stream );
             picdat = stream.toByteArray();
+
+            cameraview.change(picdat);
         }
 
     };
 
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.filter, menu);
-
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
+    public void setFilter() {
 
         Bitmap bm;
         int width;
@@ -121,42 +103,16 @@ public class CameraActivity extends Activity {
         float scaleWidth;
         float scaleHeight;
         Matrix matrix;
-        switch (item.getItemId()) {
-            case R.id.MENU_1:
-                bm = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
-                width = bm.getWidth();
-                height = bm.getHeight();
-                scaleWidth = ((float) cameraview.getMaxwidth()) / width;
-                scaleHeight = ((float) cameraview.getMaxheight()) / height;
-                matrix = new Matrix();
-                matrix.postScale(scaleWidth, scaleHeight);
-                bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
-                cameraview.getFilter().setImageBitmap(bm);
-                cameraview.getFilter().setVisibility(View.VISIBLE);
-                select = 1;
-                break;
-            case R.id.MENU_2:
-                bm = BitmapFactory.decodeResource(getResources(), R.drawable.a2);
-                width = bm.getWidth();
-                height = bm.getHeight();
-                scaleWidth = ((float) cameraview.getMaxwidth()) / width;
-                scaleHeight = ((float) cameraview.getMaxheight()) / height;
-                matrix = new Matrix();
-                matrix.postScale(scaleWidth, scaleHeight);
-                bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
-                cameraview.getFilter().setImageBitmap(bm);
-                cameraview.getFilter().setVisibility(View.VISIBLE);
-                select = 2;
-                break;
-            case R.id.MENU_3:
-                select = 3;
-                break;
-            case R.id.MENU_4:
-                select = 4;
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.a2);
+        width = bm.getWidth();
+        height = bm.getHeight();
+        scaleWidth = ((float) cameraview.getMaxwidth()) / width;
+        scaleHeight = ((float) cameraview.getMaxheight()) / height;
+        matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        bm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,true);
+        cameraview.getFilter().setImageBitmap(bm);
+        cameraview.getFilter().setVisibility(View.VISIBLE);
     }
 
     protected void onPause() {
@@ -171,7 +127,8 @@ public class CameraActivity extends Activity {
 
         mCamera = Camera.open();
         enableCamera.set(this, mCamera);
-        cameraview.getFilter().setVisibility(View.INVISIBLE);
+        setFilter();
+        focus = true;
 
         super.onResume();
     }
@@ -180,12 +137,17 @@ public class CameraActivity extends Activity {
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            if(false)
+            if(focus)
                 mCamera.autoFocus(enableCamera.onCamAutoFocus);
         }
         return super.onTouchEvent(event);
     }
 
-
+    private ImageView.OnClickListener press = new ImageView.OnClickListener(){
+        public void onClick(View v){
+            focus = false;
+            mCamera.takePicture(camShutterCallback, camRawDataCallback, camJpegCallback);
+        }
+    };
 
 }
