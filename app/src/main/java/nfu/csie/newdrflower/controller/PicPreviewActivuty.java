@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 
 import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.model.SettingPic;
 import nfu.csie.newdrflower.view.PicPreview;
 
 /**
@@ -15,6 +16,7 @@ import nfu.csie.newdrflower.view.PicPreview;
 public class PicPreviewActivuty extends Activity {
     private byte[] pic=null;
     private PicPreview picpreview;
+    private SettingPic settingpic = new SettingPic();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,7 +26,9 @@ public class PicPreviewActivuty extends Activity {
 
         Bundle bData = this.getIntent().getExtras();
         pic = bData.getByteArray("pic");
-        picpreview = new PicPreview(this,pic);
+        picpreview = new PicPreview(this);
+
+        picpreview.setPic(settingpic.changepic(pic,picpreview.getMaxwidth(),picpreview.getMaxheight()));
 
 
     }

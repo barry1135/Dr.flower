@@ -1,6 +1,8 @@
 package nfu.csie.newdrflower.view;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.controller.CameraActivity;
 
 /**
  * Created by barry on 2017/5/26.
@@ -21,11 +24,10 @@ public class PicPreview {
     private DisplayMetrics metrics;
     int maxwidth,maxheight;
 
-    public PicPreview(Activity activity,byte[] pic){
+    public PicPreview(Activity activity){
         this.activity = activity;
         init();
         setlisten();
-        setPic(pic);
 
         metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -33,8 +35,16 @@ public class PicPreview {
         maxheight = metrics.heightPixels;
     }
 
-    private void setPic(byte[] pic){
+    public int getMaxwidth(){
+        return maxwidth;
+    }
 
+    public int getMaxheight() {
+        return maxheight;
+    }
+
+    public void setPic(Bitmap pic){
+        Pic.setImageBitmap(pic);
     }
 
     private void setlisten() {
@@ -56,7 +66,9 @@ public class PicPreview {
 
     private Button.OnClickListener Back = new Button.OnClickListener(){
         public void onClick (View v){
-
+            Intent it = new Intent(activity, CameraActivity.class);
+            activity.startActivity(it);
+            activity.finish();
         }
     };
 
