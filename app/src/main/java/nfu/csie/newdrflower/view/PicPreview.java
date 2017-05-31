@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class PicPreview {
     Button OKButton,BackButton;
     private DisplayMetrics metrics;
     int maxwidth,maxheight;
+    private byte[] picdata;
 
     public PicPreview(Activity activity){
         this.activity = activity;
@@ -47,6 +49,10 @@ public class PicPreview {
         Pic.setImageBitmap(pic);
     }
 
+    public void setPicByte(byte[] picdata){
+        this.picdata = picdata;
+    }
+
     private void setlisten() {
         OKButton.setOnClickListener(OK);
         BackButton.setOnClickListener(Back);
@@ -60,7 +66,12 @@ public class PicPreview {
 
     private Button.OnClickListener OK = new Button.OnClickListener(){
         public void onClick (View v){
-
+            Intent it = new Intent(activity,SelectView.class);
+            Bundle bData = new Bundle();
+            bData.putByteArray("pic",picdata);
+            it.putExtras(bData);
+            activity.startActivity(it);
+            activity.finish();
         }
     };
 

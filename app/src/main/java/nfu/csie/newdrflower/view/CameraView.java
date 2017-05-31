@@ -1,19 +1,16 @@
 package nfu.csie.newdrflower.view;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import nfu.csie.newdrflower.R;
-import nfu.csie.newdrflower.controller.PicPreviewActivuty;
+import nfu.csie.newdrflower.controller.PicPreviewActivity;
 
 /**
  * Created by barry on 2017/5/22.
@@ -48,7 +45,7 @@ public class CameraView  {
 
 
     public void change(byte[] pic){
-        Intent it = new Intent(activity, PicPreviewActivuty.class);
+        Intent it = new Intent(activity, PicPreviewActivity.class);
         Bundle bData = new Bundle();
         bData.putByteArray("pic", pic);
         it.putExtras(bData);

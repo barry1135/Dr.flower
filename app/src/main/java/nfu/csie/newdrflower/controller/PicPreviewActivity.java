@@ -13,7 +13,7 @@ import nfu.csie.newdrflower.view.PicPreview;
  * Created by barry on 2017/5/26.
  */
 
-public class PicPreviewActivuty extends Activity {
+public class PicPreviewActivity extends Activity {
     private byte[] pic=null;
     private PicPreview picpreview;
     private SettingPic settingpic = new SettingPic();
@@ -29,6 +29,8 @@ public class PicPreviewActivuty extends Activity {
         picpreview = new PicPreview(this);
 
         picpreview.setPic(settingpic.changepic(pic,picpreview.getMaxwidth(),picpreview.getMaxheight()));
+
+        picpreview.setPicByte(settingpic.Bitmap2Byte(settingpic.changepic(pic,picpreview.getMaxwidth(),picpreview.getMaxheight())));
 
 
     }

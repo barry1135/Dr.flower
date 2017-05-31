@@ -68,7 +68,7 @@
         </activity>
 
         <activity
-        android:name=".controller.PicPreviewActivuty"
+        android:name=".controller.PicPreviewActivity"
         android:label="@string/Pic_Preview"
         android:screenOrientation="portrait">
         </activity>

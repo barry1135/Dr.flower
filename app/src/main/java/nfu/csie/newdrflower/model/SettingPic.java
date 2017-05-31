@@ -66,4 +66,11 @@ public class SettingPic {
         return a1;
 
     }
+
+    public byte[] Bitmap2Byte(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+
+    }
 }
