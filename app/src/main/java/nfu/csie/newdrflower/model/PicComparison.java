@@ -1,16 +1,11 @@
 package nfu.csie.newdrflower.model;
 
-import android.app.AlertDialog;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,47 +25,25 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by barry on 2017/5/31.
  */
 
 public class PicComparison {
-    private ArrayList<HashMap<String, Object>> similar_pic = new ArrayList<HashMap<String, Object>>();
-    private ArrayList<HashMap<String, Object>> db_data = new ArrayList<HashMap<String, Object>>();
-    private byte[] dat=null;
+    private ArrayList<HashMap<String, Object>> similar_pic = new ArrayList<>();
+    private ArrayList<HashMap<String, Object>> db_data = new ArrayList<>();
     private Bitmap bitpic;
-    int mBitmapH = 0;
-    int mBitmapW = 0;
-    int mArrayColor[] = null;
-    int mArrayColorLengh = 0;
-    int mArrayR1[] = null;
-    int mArrayG1[] = null;
-    int mArrayB1[] = null;
-    int mArrayA1[] = null;
-    int CColor[] = null;
-    int pic_PRdGT;
-    int pic_PRdBT;
-    int pic_PGdBT;
-    int pic_PRdGR;
-    int pic_PRdBR;
-    int pic_PGdBR;
-    int pic_PRdGC;
-    int pic_PRdBC;
-    int pic_PGdBC;
-    int pic_PRdGL;
-    int pic_PRdBL;
-    int pic_PGdBL;
-    int pic_PRdGB;
-    int pic_PRdBB;
-    int pic_PGdBB;
-    String lnid;
-    String lnorder;
+    private int mBitmapH = 0,mBitmapW = 0,mArrayColorLengh = 0;
+    private int mArrayColor[] = null;
+    private int mArrayR1[] = null,mArrayG1[] = null,mArrayB1[] = null,mArrayA1[] = null,CColor[] = null;
+    private int pic_PRdGT,pic_PRdBT,pic_PGdBT,pic_PRdGR,pic_PRdBR,pic_PGdBR,pic_PRdGC,pic_PRdBC,pic_PGdBC,pic_PRdGL,pic_PRdBL,pic_PGdBL,pic_PRdGB,pic_PRdBB,pic_PGdBB;
     String pic_color;
-    ArrayList<Integer> ratio = new ArrayList<Integer>();
-    ArrayList<Integer> id = new ArrayList<Integer>();
-    ArrayList<Integer> Order = new ArrayList<Integer>();
-    ArrayList<Integer> temp = new ArrayList<Integer>();
+    ArrayList<Integer> ratio = new ArrayList<>();
+    ArrayList<Integer> id = new ArrayList<>();
+    ArrayList<Integer> Order = new ArrayList<>();
+    ArrayList<Integer> temp = new ArrayList<>();
 
 
 
@@ -82,6 +55,8 @@ public class PicComparison {
         bitpic = set(bitpic);
         pic_analysis(bitpic);
         search(pic_color);
+        comparison();
+
 
 
         return similar_pic;
@@ -270,12 +245,6 @@ public class PicComparison {
 
         pic_color=PART(CColorR[0],CColorG[0],CColorB[0]);
 
-       /* CColorA[1] + " " + CColorR[1] + " " + CColorG[1] + " " + CColorB[1]+"\n"
-        + CColorA[3] + " " + CColorR[3] + " " + CColorG[3] + " " + CColorB[3]+"\n"
-        + CColorA[4] + " " + CColorR[4] + " " + CColorG[4] + " " + CColorB[4]+"\n"
-        + CColorA[5] + " " + CColorR[5] + " " + CColorG[5] + " " + CColorB[5]+"\n"
-        + CColorA[7] + " " + CColorR[7] + " " + CColorG[7] + " " + CColorB[7]+"\n");*/
-
         pic_PRdGT = Math.abs(CColorR[1] - CColorG[1]);
         pic_PRdBT = Math.abs(CColorR[1] - CColorB[1]);
         pic_PGdBT = Math.abs(CColorG[1] - CColorB[1]);
@@ -340,83 +309,129 @@ public class PicComparison {
         Order.clear();
         temp.clear();
 
-        for(int i=0;i<db_data.size();i++){
-            if(db_data.get(i).get("part").toString().contains(color)){
 
+        for(int i=0;i<db_data.size();i++) {
+            if (db_data.get(i).get("part").toString().contains(color)) {
+                HashMap<String, Object> h2 = new HashMap<String, Object>();
+
+                DPRdGT = Integer.parseInt(db_data.get(i).get("prdgt").toString());
+                DPRdBT = Integer.parseInt(db_data.get(i).get("prdbt").toString());
+                DPGdBT = Integer.parseInt(db_data.get(i).get("pgdbt").toString());
+                DPRdGR = Integer.parseInt(db_data.get(i).get("prdgr").toString());
+                DPRdBR = Integer.parseInt(db_data.get(i).get("prdbr").toString());
+                DPGdBR = Integer.parseInt(db_data.get(i).get("pgdbr").toString());
+                DPRdGC = Integer.parseInt(db_data.get(i).get("prdgc").toString());
+                DPRdBC = Integer.parseInt(db_data.get(i).get("prdbc").toString());
+                DPGdBC = Integer.parseInt(db_data.get(i).get("pgdbc").toString());
+                DPRdGL = Integer.parseInt(db_data.get(i).get("prdgl").toString());
+                DPRdBL = Integer.parseInt(db_data.get(i).get("prdbl").toString());
+                DPGdBL = Integer.parseInt(db_data.get(i).get("pgdbl").toString());
+                DPRdGB = Integer.parseInt(db_data.get(i).get("prdgb").toString());
+                DPRdBB = Integer.parseInt(db_data.get(i).get("prdbb").toString());
+                DPGdBB = Integer.parseInt(db_data.get(i).get("pgdbb").toString());
+
+                if (color.contains("yellow")) {
+                    TdC = Math.abs((pic_PRdGT - pic_PRdGC));
+                    LdC = Math.abs((pic_PRdGL - pic_PRdGC));
+                    RdC = Math.abs((pic_PRdGR - pic_PRdGC));
+                    BdC = Math.abs((pic_PRdGB - pic_PRdGC));
+                    DTdC = Math.abs((DPRdGT - DPRdGC));
+                    DLdC = Math.abs((DPRdGL - DPRdGC));
+                    DRdC = Math.abs((DPRdGR - DPRdGC));
+                    DBdC = Math.abs((DPRdGB - DPRdGC));
+
+                    diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
+
+                } else if (color.contains("white")) {
+                    TdC = Math.abs(((pic_PRdGT + pic_PRdBT + pic_PGdBT) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
+                    LdC = Math.abs(((pic_PRdGL + pic_PRdBL + pic_PGdBL) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
+                    RdC = Math.abs(((pic_PRdGR + pic_PRdBR + pic_PGdBR) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
+                    BdC = Math.abs(((pic_PRdGB + pic_PRdBB + pic_PGdBB) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
+                    DTdC = Math.abs(((DPRdGT + DPRdBT + DPGdBT) - (DPRdGC + DPRdBC + DPGdBC)));
+                    DLdC = Math.abs(((DPRdGL + DPRdBL + DPGdBL) - (DPRdGC + DPRdBC + DPGdBC)));
+                    DRdC = Math.abs(((DPRdGR + DPRdBR + DPGdBR) - (DPRdGC + DPRdBC + DPGdBC)));
+                    DBdC = Math.abs(((DPRdGB + DPRdBB + DPGdBB) - (DPRdGC + DPRdBC + DPGdBC)));
+
+                    diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
+                } else if (color.contains("red")) {
+                    TdC = Math.abs(((pic_PRdBT + pic_PGdBT) - (pic_PRdBC + pic_PGdBC)));
+                    LdC = Math.abs(((pic_PRdBL + pic_PGdBL) - (pic_PRdBC + pic_PGdBC)));
+                    RdC = Math.abs(((pic_PRdBR + pic_PGdBR) - (pic_PRdBC + pic_PGdBC)));
+                    BdC = Math.abs(((pic_PRdBB + pic_PGdBB) - (pic_PRdBC + pic_PGdBC)));
+                    DTdC = Math.abs(((DPRdBT + DPGdBT) - (DPRdBC + DPGdBC)));
+                    DLdC = Math.abs(((DPRdBL + DPGdBL) - (DPRdBC + DPGdBC)));
+                    DRdC = Math.abs(((DPRdBR + DPGdBR) - (DPRdBC + DPGdBC)));
+                    DBdC = Math.abs(((DPRdBB + DPGdBB) - (DPRdBC + DPGdBC)));
+
+                    diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
+
+                } else if (color.contains("purple")) {
+                    TdC = Math.abs(((pic_PRdGT + pic_PGdBT) - (pic_PRdGC + pic_PGdBC)));
+                    LdC = Math.abs(((pic_PRdGL + pic_PGdBL) - (pic_PRdGC + pic_PGdBC)));
+                    RdC = Math.abs(((pic_PRdGR + pic_PGdBR) - (pic_PRdGC + pic_PGdBC)));
+                    BdC = Math.abs(((pic_PRdGB + pic_PGdBB) - (pic_PRdGC + pic_PGdBC)));
+                    DTdC = Math.abs(((DPRdGT + DPGdBT) - (DPRdGC + DPGdBC)));
+                    DLdC = Math.abs(((DPRdGL + DPGdBL) - (DPRdGC + DPGdBC)));
+                    DRdC = Math.abs(((DPRdGR + DPGdBR) - (DPRdGC + DPGdBC)));
+                    DBdC = Math.abs(((DPRdGB + DPGdBB) - (DPRdGC + DPGdBC)));
+
+                    diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
+                }
+
+                byte[] bytes = Base64.decode(db_data.get(i).get("picture").toString(), Base64.DEFAULT);
+                Bitmap btm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                h2.put("id",db_data.get(i).get("id"));
+                h2.put("order",db_data.get(i).get("order"));
+                h2.put("diff",diff);
+                h2.put("pic",set_pic(btm));
+                similar_pic.add(h2);
+
+            }
+
+        }
+    }
+
+    private void comparison(){
+        HashMap<String ,Object> temp = new HashMap<String, Object>();
+
+        for (int i = 0; i < similar_pic.size(); i++) {
+            for (int j = 0; j < similar_pic.size() - 1; j++) {
+                if (Integer.parseInt(similar_pic.get(j).get("diff").toString()) > Integer.parseInt(similar_pic.get(j+1).get("diff").toString())) {
+                    temp = similar_pic.get(j);
+                    similar_pic.set(j, similar_pic.get(j + 1));
+                    similar_pic.set(j + 1, temp);
+                }
+            }
+        }
+
+        for(int i = 0; i < similar_pic.size(); i++) {
+            if(Integer.parseInt(similar_pic.get(i).get("diff").toString()) > 95)
+                similar_pic.remove(i);
+        }
+
+
+        if(similar_pic.size() > 3) {
+            for(int i = similar_pic.size()-1;i>2;i--){
+                similar_pic.remove(i);
             }
         }
 
 
-        /*for(int i =1;i< c.getCount();i++)
-        {
-
-
-            if(color.contains("yellow"))
-            {
-                TdC  = Math.abs((pic_PRdGT - pic_PRdGC));
-                LdC  = Math.abs((pic_PRdGL - pic_PRdGC));
-                RdC  = Math.abs((pic_PRdGR - pic_PRdGC));
-                BdC  = Math.abs((pic_PRdGB - pic_PRdGC));
-                DTdC = Math.abs((DPRdGT - DPRdGC));
-                DLdC = Math.abs((DPRdGL - DPRdGC));
-                DRdC = Math.abs((DPRdGR - DPRdGC));
-                DBdC = Math.abs((DPRdGB - DPRdGC));
-
-                diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
-
-            }
-            else if(color.contains("white"))
-            {
-                TdC  = Math.abs(((pic_PRdGT + pic_PRdBT + pic_PGdBT) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
-                LdC  = Math.abs(((pic_PRdGL + pic_PRdBL + pic_PGdBL) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
-                RdC  = Math.abs(((pic_PRdGR + pic_PRdBR + pic_PGdBR) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
-                BdC  = Math.abs(((pic_PRdGB + pic_PRdBB + pic_PGdBB) - (pic_PRdGC + pic_PRdBC + pic_PGdBC)));
-                DTdC = Math.abs(((DPRdGT + DPRdBT + DPGdBT) - (DPRdGC + DPRdBC + DPGdBC)));
-                DLdC = Math.abs(((DPRdGL + DPRdBL + DPGdBL) - (DPRdGC + DPRdBC + DPGdBC)));
-                DRdC = Math.abs(((DPRdGR + DPRdBR + DPGdBR) - (DPRdGC + DPRdBC + DPGdBC)));
-                DBdC = Math.abs(((DPRdGB + DPRdBB + DPGdBB) - (DPRdGC + DPRdBC + DPGdBC)));
-
-                diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
-            }
-            else if(color.contains("red"))
-            {
-                TdC  = Math.abs(((pic_PRdBT + pic_PGdBT) - (pic_PRdBC + pic_PGdBC)));
-                LdC  = Math.abs(((pic_PRdBL + pic_PGdBL) - (pic_PRdBC + pic_PGdBC)));
-                RdC  = Math.abs(((pic_PRdBR + pic_PGdBR) - (pic_PRdBC + pic_PGdBC)));
-                BdC  = Math.abs(((pic_PRdBB + pic_PGdBB) - (pic_PRdBC + pic_PGdBC)));
-                DTdC = Math.abs(((DPRdBT + DPGdBT) - (DPRdBC + DPGdBC)));
-                DLdC = Math.abs(((DPRdBL + DPGdBL) - (DPRdBC + DPGdBC)));
-                DRdC = Math.abs(((DPRdBR + DPGdBR) - (DPRdBC + DPGdBC)));
-                DBdC = Math.abs(((DPRdBB + DPGdBB) - (DPRdBC + DPGdBC)));
-
-                diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
-
-    			TdC  = Math.abs(PRdBT - PRdBC);
-	    		LdC  = Math.abs(PRdBL - PRdBC);
-	    		RdC  = Math.abs(PRdBR - PRdBC);
-	    		BdC  = Math.abs(PRdBB - PRdBC);
-	    		DTdC = Math.abs(DPRdBT - DPRdBC);
-	    		DLdC = Math.abs(DPRdBL - DPRdBC);
-	    		DRdC = Math.abs(DPRdBR - DPRdBC);
-	    		DBdC = Math.abs(DPRdBB - DPRdBC);
-	    		diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
-            }
-            else if(color.contains("purple"))
-            {
-                TdC  = Math.abs(((pic_PRdGT + pic_PGdBT) - (pic_PRdGC + pic_PGdBC)));
-                LdC  = Math.abs(((pic_PRdGL + pic_PGdBL) - (pic_PRdGC + pic_PGdBC)));
-                RdC  = Math.abs(((pic_PRdGR + pic_PGdBR) - (pic_PRdGC + pic_PGdBC)));
-                BdC  = Math.abs(((pic_PRdGB + pic_PGdBB) - (pic_PRdGC + pic_PGdBC)));
-                DTdC = Math.abs(((DPRdGT + DPGdBT) - (DPRdGC + DPGdBC)));
-                DLdC = Math.abs(((DPRdGL + DPGdBL) - (DPRdGC + DPGdBC)));
-                DRdC = Math.abs(((DPRdGR + DPGdBR) - (DPRdGC + DPGdBC)));
-                DBdC = Math.abs(((DPRdGB + DPGdBB) - (DPRdGC + DPGdBC)));
-
-                diff = Math.abs(TdC - DTdC) + Math.abs(LdC - DLdC) + Math.abs(RdC - DRdC) + Math.abs(BdC - DBdC);
-            }
-
-            ratio.add(diff);
-            c.moveToNext();
-        }*/
     }
+
+    private Bitmap set_pic(Bitmap a){
+        int width = a.getWidth();
+        int height = a.getHeight();
+        int newwidth = 480;
+        int newheight = 480;
+        float scaleWidth = ((float) newwidth) / width;
+        float scaleHeight = ((float) newheight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap a1 = Bitmap.createBitmap(a, 0, 0, width, height, matrix,true);
+
+        return a1;
+    }
+
 }

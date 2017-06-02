@@ -2,7 +2,11 @@ package nfu.csie.newdrflower.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
 import java.io.ByteArrayOutputStream;
@@ -63,7 +67,19 @@ public class SettingPic {
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap a1 = Bitmap.createBitmap(m, 0, 0, width, height, matrix,true);
 
-        return a1;
+        Bitmap newBitMap = Bitmap.createBitmap(a1.getWidth(), a1.getHeight(), Bitmap.Config.ARGB_8888);
+        ColorMatrix scaleMatrix = new ColorMatrix();
+        scaleMatrix.setScale((float)1.5, (float)1.5, (float)1.5, 1);
+
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.postConcat(scaleMatrix);
+
+        Canvas canvas = new Canvas(newBitMap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+        canvas.drawBitmap(a1, 0, 0, paint);
+
+        return newBitMap;
 
     }
 

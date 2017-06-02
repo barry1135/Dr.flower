@@ -30,7 +30,7 @@ public class SelectActivity extends Activity {
     //繁重執行序用的 (時間超過3秒的)
     private android.os.Handler mThreadHandler;
     private Dialog dialog;
-    private ArrayList<HashMap<String, Object>> similarpic = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> similar＿pic = new ArrayList<HashMap<String, Object>>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,15 +59,14 @@ public class SelectActivity extends Activity {
             @Override
             public void run()
             {
-                similarpic = piccomparison.PicComparison(pic);
+                similar＿pic = piccomparison.PicComparison(pic);
                 mUI_Handler.post(new Runnable()
                 {
 
                     @Override
                     public void run()
                     {
-
-
+                        selectView.setimg(similar＿pic);
                         dialog.dismiss();
                     }
                 });
@@ -77,7 +76,7 @@ public class SelectActivity extends Activity {
 
     public void DialogWaitView(){
         dialog = ProgressDialog.show(SelectActivity.this,
-                "讀取中", "請等待...", true);
+                "比對中", "請等待...", true);
     }
 
 

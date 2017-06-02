@@ -73,6 +73,12 @@
         android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".controller.SelectActivity"
+            android:label="@string/Select_Pic"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

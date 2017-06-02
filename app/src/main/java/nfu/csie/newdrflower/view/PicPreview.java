@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.controller.CameraActivity;
+import nfu.csie.newdrflower.controller.SelectActivity;
 
 /**
  * Created by barry on 2017/5/26.
@@ -66,7 +67,7 @@ public class PicPreview {
 
     private Button.OnClickListener OK = new Button.OnClickListener(){
         public void onClick (View v){
-            Intent it = new Intent(activity,SelectView.class);
+            Intent it = new Intent(activity,SelectActivity.class);
             Bundle bData = new Bundle();
             bData.putByteArray("pic",picdata);
             it.putExtras(bData);

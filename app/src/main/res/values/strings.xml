@@ -4,4 +4,5 @@
     <string name="Data_Info">DataInfo</string>
     <string name="Camera_Preview">CameraPreview</string>
     <string name="Pic_Preview">PicPreview</string>
+    <string name="Select_Pic">SelectPic</string>
 </resources>
