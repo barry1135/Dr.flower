@@ -155,8 +155,7 @@ public class DataPreview{
                     order = (page - 1) * 12 + 11;
                     break;
             }
-            Intent it = new Intent();
-            it.setClass(activity,DataInfoActivity.class);
+            Intent it = new Intent(activity,DataInfoActivity.class);
             it.putExtra("order",order);
             it.putExtra("Pic",Bitmap2Bytes((Bitmap) PicData.get(order).get("picture")));
             activity.startActivity(it);

@@ -2,7 +2,6 @@ package nfu.csie.newdrflower.controller;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.model.PicComparison;
-import nfu.csie.newdrflower.view.PicPreview;
 import nfu.csie.newdrflower.view.SelectView;
 
 import android.app.Activity;
@@ -43,7 +42,7 @@ public class SelectActivity extends Activity {
         selectView = new SelectView(this);
         piccomparison = new PicComparison();
 
-        mThread = new HandlerThread("flower_data_info");
+        mThread = new HandlerThread("flower_Select");
         mThread.start();
         DialogWaitView();
         show();
@@ -77,6 +76,7 @@ public class SelectActivity extends Activity {
     public void DialogWaitView(){
         dialog = ProgressDialog.show(SelectActivity.this,
                 "比對中", "請等待...", true);
+
     }
 
 
