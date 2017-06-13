@@ -5,14 +5,10 @@
     android:gravity="bottom"
     tools:context=".controller.CameraActivity" >
 
-    <SurfaceView
-        android:id="@+id/surfaceView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+    <TextureView
+        android:id="@+id/camera_texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/imageView1"

@@ -1,29 +1,22 @@
 package nfu.csie.newdrflower.model;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.util.Base64;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by barry on 2017/5/18.
@@ -31,25 +24,27 @@ import java.util.List;
 
 public class DataInfoConnect {
 
-    private ArrayList<HashMap<String, Object>> user = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> user = new ArrayList<>();
 
 
     public ArrayList<HashMap<String,Object>> DBInforeturn(int order){
-        String flowerdatajsonString = PostflowerData("society");
+        String flowerdatajsonString = PostflowerData();
          flowerDataListView(flowerdatajsonString,order);
 
         return user;
     }
     //ArrayList<HashMap<String, Object>>
 
-    public String PostflowerData(String query)
+    private String PostflowerData()
     {
         String result = "";
+        InputStream inputStream = null;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try
         {
-            HttpClient httpClient = new DefaultHttpClient();
+            /*HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost("http://172.20.10.2/flowerInfo.php");
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            List<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("category", query));
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse httpResponse = httpClient.execute(post);
@@ -63,7 +58,33 @@ public class DataInfoConnect {
                 builder.append(line + "\n");
             }
             inputStream.close();
-            result = builder.toString();
+            result = builder.toString();*/
+
+            URL url = new URL("http://172.20.10.2/flowerData.php");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write("");
+            writer.flush();
+            writer.close();
+            os.close();
+
+            conn.connect();
+            inputStream = conn.getInputStream();
+
+            BufferedReader bufferedReader=new BufferedReader(
+                    new InputStreamReader(inputStream, "utf-8"));
+
+            result=bufferedReader.readLine();
         }
         catch (Exception e)
         {
@@ -82,9 +103,9 @@ public class DataInfoConnect {
         try
         {
             JSONArray jsonArray = new JSONArray(input);
-            ArrayList<HashMap<String, Object>> users = new ArrayList<HashMap<String, Object>>();
+            ArrayList<HashMap<String, Object>> users = new ArrayList<>();
             JSONObject jsonData = jsonArray.getJSONObject(order);
-            HashMap<String, Object> h2 = new HashMap<String, Object>();
+            HashMap<String, Object> h2 = new HashMap<>();
             h2.put("name", jsonData.getString("_Name"));
             h2.put("scientificname", jsonData.getString("_ScientificName"));
             h2.put("englishname", jsonData.getString("_EnglishName"));

@@ -73,7 +73,7 @@ public class SelectActivity extends Activity {
         });
     }
 
-    public void DialogWaitView(){
+    private void DialogWaitView(){
         dialog = ProgressDialog.show(SelectActivity.this,
                 "比對中", "請等待...", true);
 

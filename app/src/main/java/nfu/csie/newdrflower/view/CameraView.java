@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
+import android.view.TextureView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ import nfu.csie.newdrflower.controller.PicPreviewActivity;
 
 public class CameraView  {
     private Activity activity;
-    private SurfaceView sfv;
+    private TextureView mTextureView;
     private ImageView filter,button;
     private TextView prompt;
     private boolean focus = false;
@@ -37,7 +39,7 @@ public class CameraView  {
     }
 
     private void initview() {
-        sfv = (SurfaceView) activity.findViewById(R.id.surfaceView1);
+        mTextureView = (TextureView) activity.findViewById(R.id.camera_texture_view);
         filter = (ImageView) activity.findViewById(R.id.imageView1);
         button = (ImageView) activity.findViewById(R.id.imageView2);
         prompt = (TextView) activity.findViewById(R.id.textView1);
@@ -45,18 +47,13 @@ public class CameraView  {
 
 
     public void change(byte[] pic){
-        Intent it = new Intent(activity, PicPreviewActivity.class);
-        Bundle bData = new Bundle();
-        bData.putByteArray("pic", pic);
-        it.putExtras(bData);
-        activity.startActivity(it);
-        activity.finish();
+
     }
 
 
 
-    public SurfaceView getSfv(){
-        return sfv;
+    public TextureView gettextureview(){
+        return mTextureView;
     }
 
     public int getMaxwidth(){

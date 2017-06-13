@@ -1,6 +1,10 @@
 package nfu.csie.newdrflower.controller;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -8,14 +12,15 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.MotionEvent;
-import android.view.SurfaceView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.model.EnableCamera;
@@ -25,10 +30,13 @@ import nfu.csie.newdrflower.view.CameraView;
  * Created by barry on 2017/5/22.
  */
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends Activity{
+
+    private final int PERMISSION_WRITE_STORAGE = 0;
+
     private CameraView cameraview;
     private EnableCamera enableCamera;
-    private SurfaceView sfv;
+    private TextureView mTextureView;
     private byte[] picdat;
     private Camera mCamera;
     private boolean focus = false;
@@ -37,17 +45,19 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         requestWindowFeature(Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
 
         setContentView(R.layout.camera);
+
+
         cameraview = new CameraView(this);
 
-        sfv = cameraview.getSfv();
+        mTextureView = cameraview.gettextureview();
 
-        enableCamera = new EnableCamera(this,sfv);
+
 
         cameraview.getButton().setOnClickListener(press);
 
@@ -57,7 +67,16 @@ public class CameraActivity extends Activity {
 
     }
 
-    Camera.ShutterCallback camShutterCallback = new Camera.ShutterCallback(){
+    public static void getPermission(Activity activity, String permission, int permissionCode) {
+
+        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), permission)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(activity, new String[]{permission}, permissionCode);
+        }
+    }
+
+    /*Camera.ShutterCallback camShutterCallback = new Camera.ShutterCallback(){
         public void onShutter(){
 
         }
@@ -92,7 +111,7 @@ public class CameraActivity extends Activity {
             cameraview.change(picdat);
         }
 
-    };
+    };*/
 
 
     public void setFilter() {
@@ -115,39 +134,82 @@ public class CameraActivity extends Activity {
         cameraview.getFilter().setVisibility(View.VISIBLE);
     }
 
-    protected void onPause() {
+    /*protected void onPause() {
         mCamera.stopPreview();
         mCamera.release();
         mCamera = null;
         super.onPause();
-    }
+    }*/
 
     protected void onResume() {
 
-
-        mCamera = Camera.open();
-        enableCamera.set(this, mCamera);
         setFilter();
-        focus = true;
+
 
         super.onResume();
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    protected void onStart() {
+        super.onStart();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            enableCamera = new EnableCamera(mTextureView,this);
+        }
+        else{
+            showDialog("請提供授權", "聽音樂需要存放檔案的權限才能順利播放",
+                    "重新提供", getPermissionListener, "不要提供", closeActivityListener);
+        }
+    }
+//@Override
+    /*public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
             if(focus)
                 mCamera.autoFocus(enableCamera.onCamAutoFocus);
         }
         return super.onTouchEvent(event);
-    }
+    }*/
 
     private ImageView.OnClickListener press = new ImageView.OnClickListener(){
         public void onClick(View v){
-            focus = false;
-            mCamera.takePicture(camShutterCallback, camRawDataCallback, camJpegCallback);
+            enableCamera.takepic();
         }
     };
+
+    private void sendpicdata(){
+        cameraview.change(enableCamera.getPicdata());
+    }
+
+    public  void showDialog(String title, String message,
+                                  String confirm1, DialogInterface.OnClickListener listener1,
+                                  String confirm2, DialogInterface.OnClickListener listener2) {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(title).setMessage(message)
+                .setPositiveButton(confirm1, listener1)
+                .setNegativeButton(confirm2, listener2)
+                .show();
+    }
+
+    private DialogInterface.OnClickListener getPermissionListener =
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    //取得檔案寫入的權限
+                    getPermission(CameraActivity.this,
+                            Manifest.permission.CAMERA,
+                            PERMISSION_WRITE_STORAGE);
+                    enableCamera = new EnableCamera(mTextureView,CameraActivity.this);
+                }
+            };
+
+    private DialogInterface.OnClickListener closeActivityListener =
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(CameraActivity.this, "無法播放音樂", Toast.LENGTH_SHORT).show();
+                }
+            };
 
 }

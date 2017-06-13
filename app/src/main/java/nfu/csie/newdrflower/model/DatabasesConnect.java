@@ -1,25 +1,20 @@
 package nfu.csie.newdrflower.model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.util.Base64;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,19 +31,21 @@ public class DatabasesConnect {
 
     public ArrayList<HashMap<String,Object>> DBConnectPicReturn(){
 
-        String flowerdatajsonString = PostflowerData("society");
+        String flowerdatajsonString = PostflowerData();
         flowerDataListView(flowerdatajsonString);
 
         return user;
     }
     //ArrayList<HashMap<String, Object>>
 
-    public String PostflowerData(String query)
+    private String PostflowerData()
     {
         String result = "";
+        InputStream inputStream = null;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try
         {
-            HttpClient httpClient = new DefaultHttpClient();
+            /*HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost("http://172.20.10.2/flowerData.php");
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("category", query));
@@ -64,7 +61,33 @@ public class DatabasesConnect {
                 builder.append(line + "\n");
             }
             inputStream.close();
-            result = builder.toString();
+            result = builder.toString();*/
+
+            URL url = new URL("http://172.20.10.2/flowerData.php");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write("");
+            writer.flush();
+            writer.close();
+            os.close();
+
+            conn.connect();
+            inputStream = conn.getInputStream();
+
+            BufferedReader bufferedReader=new BufferedReader(
+                    new InputStreamReader(inputStream, "utf-8"));
+
+            result=bufferedReader.readLine();
         }
         catch (Exception e)
         {
