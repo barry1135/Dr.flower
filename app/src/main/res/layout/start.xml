@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,5 +35,16 @@
         android:layout_centerVertical="true"
         android:src="@drawable/enter"
         android:stretchMode="columnWidth" />
+
+    <ImageView
+        android:id="@+id/googlemap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/data"
+        android:layout_below="@+id/data"
+        android:layout_alignLeft="@+id/data"
+        android:layout_alignStart="@+id/data"
+        android:src="@drawable/data"
+        android:layout_marginTop="21dp" />
 
 </RelativeLayout>

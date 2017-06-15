@@ -5,4 +5,5 @@
     <string name="Camera_Preview">CameraPreview</string>
     <string name="Pic_Preview">PicPreview</string>
     <string name="Select_Pic">SelectPic</string>
+    <string name="Google_Map">GoogleMap</string>
 </resources>
