@@ -24,10 +24,11 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.googlemap_api);
+        setContentView(R.layout.googlemap);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -38,5 +39,8 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         LatLng sydney = new LatLng(25.033408, 121.564099);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15.0f));
     }
 }

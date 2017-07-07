@@ -1,9 +1,5 @@
 package nfu.csie.newdrflower.controller;
 
-import nfu.csie.newdrflower.R;
-import nfu.csie.newdrflower.model.PicComparison;
-import nfu.csie.newdrflower.view.SelectView;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -15,6 +11,10 @@ import android.view.Window;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import nfu.csie.newdrflower.R;
+import nfu.csie.newdrflower.model.PicComparison;
+import nfu.csie.newdrflower.view.SelectView;
 
 /**
  * Created by barry on 2017/5/31.
@@ -47,8 +47,6 @@ public class SelectActivity extends Activity {
         DialogWaitView();
         show();
 
-
-
     }
 
     private void show() {
@@ -66,9 +64,10 @@ public class SelectActivity extends Activity {
                     public void run()
                     {
                         selectView.setimg(similar＿pic);
-                        dialog.dismiss();
                     }
+
                 });
+                dialog.dismiss();
             }
         });
     }
@@ -79,5 +78,11 @@ public class SelectActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        if(mThread != null)
+            mThread.quit();
+    }
 }

@@ -3,7 +3,6 @@ package nfu.csie.newdrflower.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -63,6 +62,8 @@ public class PicPreview {
         Pic = (ImageView) activity.findViewById(R.id.imageView1);
         OKButton = (Button) activity.findViewById(R.id.button1);
         BackButton = (Button) activity.findViewById(R.id.button2);
+
+
     }
 
     private Button.OnClickListener OK = new Button.OnClickListener(){
