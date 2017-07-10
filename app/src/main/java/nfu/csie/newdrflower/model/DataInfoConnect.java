@@ -60,7 +60,7 @@ public class DataInfoConnect {
             inputStream.close();
             result = builder.toString();*/
 
-            URL url = new URL("http://172.20.10.2/flowerData.php");
+            URL url = new URL("http://172.20.10.2/flowerInfo.php");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);

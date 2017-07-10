@@ -1,4 +1,5 @@
 package nfu.csie.newdrflower.model;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -108,7 +109,6 @@ public class EnableCamera{
         @Override
         public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
             super.onCaptureStarted(session, request, timestamp, frameNumber);
-            Log.d("text2","onCaptureStarted");
         }
     };
 
@@ -174,8 +174,14 @@ public class EnableCamera{
             @Override
             public void onLocationChanged(Location location) {
                 Log.d("text2","onLocationChanged");
-                Log.d("text2",String.valueOf(location.getLatitude()));
-                Log.d("text2",String.valueOf(location.getLongitude()));
+                try {
+                    Log.d("text2",String.valueOf(location.getLatitude()));
+                    Log.d("text2",String.valueOf(location.getLongitude()));
+                }
+                catch (Exception ex){
+                    Log.d("text2","定位座標失誤");
+                }
+
             }
 
             @Override
@@ -283,9 +289,6 @@ public class EnableCamera{
         },mainHandler);
     }
 
-    public byte[] getPicdata(){
-        return  picdata;
-    }
 
     public void startBackgroundThread() {
         Log.d("text2","startBackgroundThread");
