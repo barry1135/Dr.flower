@@ -47,7 +47,6 @@ import nfu.csie.newdrflower.controller.PicPreviewActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.Context.CAMERA_SERVICE;
-import static android.os.Looper.getMainLooper;
 
 /**
  * Created by barry on 2017/5/22.
@@ -286,7 +285,7 @@ public class EnableCamera{
 
                 }
             }
-        },mainHandler);
+        },mBackgroundHandler);
     }
 
 
@@ -295,7 +294,6 @@ public class EnableCamera{
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-        mainHandler = new Handler(getMainLooper());
     }
     public void stopBackgroundThread() {
         if (mBackgroundThread != null) {

@@ -1,19 +1,15 @@
 package nfu.csie.newdrflower.controller;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.model.DatabasesConnect;
 import nfu.csie.newdrflower.view.StartView;
-
-import android.app.ActionBar;
 
 
 /**
@@ -34,6 +30,13 @@ public class StartActivity extends Activity {
 
         startview = new StartView(this);
 
+    }
+
+    public void onReceive(Context context, Intent intent)
+    {
+        Intent mainIntent = new Intent(context,StartActivity.class);
+        mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(mainIntent);
     }
 
 
