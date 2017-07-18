@@ -85,5 +85,6 @@ public class CameraActivity extends Activity{
     protected void onPause(){
         super.onPause();
         enableCamera.stopBackgroundThread();
+        enableCamera.CloseCamera();
     }
 }

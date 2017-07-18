@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.text.TextPaint;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,10 +42,31 @@ public class DataInfoView {
         Kind.setText(PicInfo.get(0).get("kind").toString());
         Feature.setText(PicInfo.get(0).get("feature").toString());
 
+        adjustTvTextSize(Name,String.valueOf(Name.getText()));
+        adjustTvTextSize(ScientificName,String.valueOf(ScientificName.getText()));
+        adjustTvTextSize(EnglishName,String.valueOf(EnglishName.getText()));
+        adjustTvTextSize(OtherName,String.valueOf(OtherName.getText()));
+        adjustTvTextSize(Kind,String.valueOf(Kind.getText()));
+
     }
 
     private void setlisten() {
         back.setOnClickListener(Goback);
+    }
+
+    private void adjustTvTextSize(TextView tv, String text) {
+        int maxWidth = tv.getWidth();
+        int avaiWidth = maxWidth - tv.getPaddingLeft() - tv.getPaddingRight() - 10;
+        if (avaiWidth <= 0) {
+            return;
+        }
+        TextPaint textPaintClone = new TextPaint(tv.getPaint());
+        float trySize = textPaintClone.getTextSize();
+        while (textPaintClone.measureText(text) > avaiWidth) {
+            trySize--;
+            textPaintClone.setTextSize(trySize);
+        }
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, trySize);
     }
 
     private void initview() {

@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import nfu.csie.newdrflower.controller.PicPreviewActivity;
 
@@ -75,6 +76,7 @@ public class EnableCamera{
         public void onOpened(CameraDevice cameraDevice) {
             Log.d("text2","onOpened");
             mCameraDevice = cameraDevice;
+            mCameraOpenCloseLock.release();
             createCameraPreview();
         }
 
@@ -82,12 +84,14 @@ public class EnableCamera{
         public void onDisconnected(CameraDevice cameraDevice) {
             Log.d("text2","onDisconnected");
             mCameraDevice.close();
+            mCameraOpenCloseLock.release();
             mCameraDevice = null;
         }
 
         @Override
         public void onError(CameraDevice cameraDevice, int i) {
             Log.d("text2","onError");
+            mCameraOpenCloseLock.release();
             mCameraDevice.close();
             mCameraDevice = null;
         }
@@ -104,6 +108,7 @@ public class EnableCamera{
     }
     private CameraCaptureSession mSession;
     private CaptureRequest.Builder mBuilder;
+    private Semaphore mCameraOpenCloseLock = new Semaphore(1);
     private CameraCaptureSession.CaptureCallback mSessionCaptureCallback = new CameraCaptureSession.CaptureCallback() {
         @Override
         public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
@@ -381,6 +386,33 @@ public class EnableCamera{
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
+    }
+
+    public void CloseCamera(){
+        try{
+            mCameraOpenCloseLock.acquire();
+            if (null != mSession) {
+                mSession.close();
+                mSession = null;
+            }
+            // 关闭当前相机
+            if (null != mCameraDevice) {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
+            // 关闭拍照处理器
+            if (null != mImageReader) {
+                mImageReader.close();
+                mImageReader = null;
+            }
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
+        }finally {
+            // 释放相机开打关闭许可
+            mCameraOpenCloseLock.release();
+        }
+
     }
 
 }
