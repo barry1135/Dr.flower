@@ -56,7 +56,7 @@ public class DataInfoView {
 
     private void adjustTvTextSize(TextView tv, String text) {
         int maxWidth = tv.getWidth();
-        int avaiWidth = maxWidth - tv.getPaddingLeft() - tv.getPaddingRight() - 10;
+        int avaiWidth = maxWidth - tv.getPaddingLeft() - tv.getPaddingRight() - 7;
         if (avaiWidth <= 0) {
             return;
         }
