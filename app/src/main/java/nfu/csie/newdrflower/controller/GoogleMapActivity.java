@@ -1,5 +1,6 @@
 package nfu.csie.newdrflower.controller;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,7 @@ import nfu.csie.newdrflower.R;
 public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
+     private SQLiteDatabase sqLiteDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

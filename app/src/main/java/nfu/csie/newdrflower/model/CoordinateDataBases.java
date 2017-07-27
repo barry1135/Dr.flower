@@ -26,7 +26,8 @@ public class CoordinateDataBases extends SQLiteOpenHelper {
         final String SQL = "CREATE TABLE IF NOT EXISTS " + _TableName1 + "( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "_Picture TEXT," +
-                "_Coordinate" +
+                "_Latitude," +
+                "longitude" +
                 ");";
         db.execSQL(SQL);
     }

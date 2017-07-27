@@ -57,7 +57,7 @@ import static android.content.Context.CAMERA_SERVICE;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class EnableCamera{
 
-    private final int REQUEST_CAMERA_PERMISSION = 0;
+    private final int REQUEST_CAMERA_PERMISSION = 90;
 
 
     private TextureView mTextureView;
@@ -77,6 +77,7 @@ public class EnableCamera{
             Log.d("text2","onOpened");
             mCameraDevice = cameraDevice;
             mCameraOpenCloseLock.release();
+            initCamera2();
             createCameraPreview();
         }
 
@@ -115,6 +116,7 @@ public class EnableCamera{
             super.onCaptureStarted(session, request, timestamp, frameNumber);
         }
     };
+    private double latitude,longitude;
 
 
 
@@ -152,7 +154,7 @@ public class EnableCamera{
             mHeight = height;
             getCameraId();
             openCamera();
-            initCamera2();
+
         }
 
         @Override
@@ -179,6 +181,8 @@ public class EnableCamera{
             public void onLocationChanged(Location location) {
                 Log.d("text2","onLocationChanged");
                 try {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
                     Log.d("text2",String.valueOf(location.getLatitude()));
                     Log.d("text2",String.valueOf(location.getLongitude()));
                 }
@@ -284,6 +288,8 @@ public class EnableCamera{
                     Intent it = new Intent(mActivity, PicPreviewActivity.class);
                     Bundle bData = new Bundle();
                     bData.putByteArray("pic", picdata);
+                    bData.putDouble("latitude",latitude);
+                    bData.putDouble("longitude",longitude);
                     it.putExtras(bData);
                     mActivity.startActivity(it);
                     mActivity.finish();
@@ -379,7 +385,7 @@ public class EnableCamera{
                 // 獲取手機方向
                 int rotation = mActivity.getWindowManager().getDefaultDisplay().getRotation();
                 // 根據設備方向計算設置照片的方向
-                mBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+                mBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation)+90);
                 //拍照
                 CaptureRequest mCaptureRequest = mBuilder.build();
                 mSession.capture(mCaptureRequest, null, mBackgroundHandler);
