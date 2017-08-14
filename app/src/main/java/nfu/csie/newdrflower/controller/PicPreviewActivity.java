@@ -32,18 +32,22 @@ public class PicPreviewActivity extends Activity {
         latitude = bData.getDouble("latitude");
         longitude = bData.getDouble("longitude");
 
-        base64Pic = Base64.encodeToString(pic,Base64.DEFAULT);
+
 
 
         picpreview = new PicPreview(this);
 
         picpreview.setLocation(latitude,longitude);
 
-        picpreview.setBase64Pic(base64Pic);
+
 
         picpreview.setPic(settingpic.changepic(pic,picpreview.getMaxwidth(),picpreview.getMaxheight()));
 
         picpreview.setPicByte(settingpic.Bitmap2Byte(settingpic.changepic(pic,picpreview.getMaxwidth(),picpreview.getMaxheight())));
+
+        base64Pic = Base64.encodeToString(settingpic.Bitmap2Byte(settingpic.changepic(pic,picpreview.getMaxwidth(),picpreview.getMaxheight())),Base64.DEFAULT);
+
+        picpreview.setBase64Pic(base64Pic);
 
 
     }
