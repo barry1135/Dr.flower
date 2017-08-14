@@ -73,6 +73,10 @@ public class DataInfoActivity extends Activity {
                 });
             }
         });
+
+
+
+
     }
 
     public void DialogWaitView(){

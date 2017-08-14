@@ -29,7 +29,7 @@ public class PicPreviewActivity extends Activity {
 
         Bundle bData = this.getIntent().getExtras();
         pic = bData.getByteArray("pic");
-        latitude = bData.getDouble("longitude");
+        latitude = bData.getDouble("latitude");
         longitude = bData.getDouble("longitude");
 
         base64Pic = Base64.encodeToString(pic,Base64.DEFAULT);

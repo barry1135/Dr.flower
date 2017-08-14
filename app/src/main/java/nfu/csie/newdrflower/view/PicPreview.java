@@ -82,7 +82,7 @@ public class PicPreview {
             ContentValues values = new ContentValues();
             values.put("_Picture",Base64Pic);
             values.put("_Latitude",latitude);
-            values.put("Longitude",longitude);
+            values.put("_Longitude",longitude);
             DB.insert("FlowerCoordinate", null, values);
             SqliteDB.close();
 

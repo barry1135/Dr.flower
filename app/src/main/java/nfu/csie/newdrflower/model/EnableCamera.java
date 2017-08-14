@@ -99,7 +99,7 @@ public class EnableCamera{
     };
 
     private HandlerThread mBackgroundThread;
-    private Handler mBackgroundHandler,mainHandler;
+    private Handler mBackgroundHandler;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -401,12 +401,11 @@ public class EnableCamera{
                 mSession.close();
                 mSession = null;
             }
-            // 关闭当前相机
+            // 關閉相機
             if (null != mCameraDevice) {
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            // 关闭拍照处理器
             if (null != mImageReader) {
                 mImageReader.close();
                 mImageReader = null;
@@ -415,7 +414,6 @@ public class EnableCamera{
         catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         }finally {
-            // 释放相机开打关闭许可
             mCameraOpenCloseLock.release();
         }
 

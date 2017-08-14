@@ -1,9 +1,20 @@
 <resources>
-    <string name="app_name">NewDr.flower</string>
+    <string name="app_name">NewDr.Flower</string>
     <string name="Data_Preview">DataPreview</string>
     <string name="Data_Info">DataInfo</string>
     <string name="Camera_Preview">CameraPreview</string>
     <string name="Pic_Preview">PicPreview</string>
     <string name="Select_Pic">SelectPic</string>
     <string name="Google_Map">GoogleMap</string>
+    <string name="FlName">名稱：</string>
+    <string name="STName">學名：</string>
+    <string name="EGName">英名：</string>
+    <string name="OtherName">別名：</string>
+    <string name="Kind">科屬：</string>
+    <string name="Feature">特徵：</string>
+    <string name="Back">上一頁</string>
+    <string name="leave">Dr.Flower</string>
+    <string name="AlertMessage">離開程式？</string>
+    <string name="Yes">是</string>
+    <string name="No">否</string>
 </resources>

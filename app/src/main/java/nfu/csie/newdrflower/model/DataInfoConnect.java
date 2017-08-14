@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -17,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 /**
  * Created by barry on 2017/5/18.
@@ -27,9 +27,10 @@ public class DataInfoConnect {
     private ArrayList<HashMap<String, Object>> user = new ArrayList<>();
 
 
+
     public ArrayList<HashMap<String,Object>> DBInforeturn(int order){
         String flowerdatajsonString = PostflowerData();
-         flowerDataListView(flowerdatajsonString,order);
+        flowerDataListView(flowerdatajsonString,order);
 
         return user;
     }
@@ -39,29 +40,9 @@ public class DataInfoConnect {
     {
         String result = "";
         InputStream inputStream = null;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try
         {
-            /*HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://172.20.10.2/flowerInfo.php");
-            List<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("category", query));
-            post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse httpResponse = httpClient.execute(post);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            InputStream inputStream = httpEntity.getContent();
-            BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
-            StringBuilder builder = new StringBuilder();
-            String line = null;
-            while ((line = bufReader.readLine()) != null)
-            {
-                builder.append(line + "\n");
-            }
-            inputStream.close();
-            result = builder.toString();*/
-
-            URL url = new URL("http://172.20.10.2/flowerInfo.php");
-            //URL url = new URL("http://172.20.10.4/flowerData.php");
+            URL url = new URL("http://172.20.10.4/flowerInfo.php");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);
@@ -86,6 +67,7 @@ public class DataInfoConnect {
                     new InputStreamReader(inputStream, "utf-8"));
 
             result=bufferedReader.readLine();
+
         }
         catch (Exception e)
         {
@@ -93,6 +75,7 @@ public class DataInfoConnect {
         }
         return result;
     }
+
 
     private void flowerDataListView(String input,int order)
     {

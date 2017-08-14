@@ -1,16 +1,18 @@
 package nfu.csie.newdrflower.view;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
 import nfu.csie.newdrflower.R;
 import nfu.csie.newdrflower.controller.CameraActivity;
 import nfu.csie.newdrflower.controller.DataPreviewActivity;
-import nfu.csie.newdrflower.controller.GoogleMapActivity;
 import nfu.csie.newdrflower.model.CoordinateDataBases;
+import nfu.csie.newdrflower.model.FlowerMap;
 
 /**
  * Created by barry on 2017/5/11.
@@ -58,7 +60,23 @@ public class StartView {
 
     private ImageView.OnClickListener ExitListener = new ImageView.OnClickListener(){
         public void onClick(View v){
-            activity.finish();
+            new AlertDialog.Builder(activity)
+                    .setTitle(R.string.leave)
+                    .setMessage(R.string.AlertMessage)
+                    .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    })
+                    .show();
+
         }
     };
 
@@ -73,7 +91,7 @@ public class StartView {
 
     private ImageView.OnClickListener MapListener = new ImageView.OnClickListener(){
       public void onClick(View v){
-            Intent it = new Intent(activity, GoogleMapActivity.class);
+            Intent it = new Intent(activity, FlowerMap.class);
             activity.startActivity(it);
       }
     };

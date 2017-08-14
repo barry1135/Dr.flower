@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -43,29 +42,9 @@ public class DatabasesConnect {
     {
         String result = "";
         InputStream inputStream = null;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try
         {
-            /*HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://172.20.10.2/flowerData.php");
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("category", query));
-            post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse httpResponse = httpClient.execute(post);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            InputStream inputStream = httpEntity.getContent();
-            BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
-            StringBuilder builder = new StringBuilder();
-            String line = null;
-            while ((line = bufReader.readLine()) != null)
-            {
-                builder.append(line + "\n");
-            }
-            inputStream.close();
-            result = builder.toString();*/
-
-            URL url = new URL("http://172.20.10.2/flowerData.php");
-            //URL url = new URL("http://172.20.10.4/flowerData.php");
+            URL url = new URL("http://172.20.10.4/flowerData.php");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);

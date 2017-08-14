@@ -43,7 +43,7 @@ public abstract class BaseGoogleMapActivity extends FragmentActivity implements 
     }
 
     private void setUpMap() {
-        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googlemap)).getMapAsync(this);
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
     }
 
     /**
