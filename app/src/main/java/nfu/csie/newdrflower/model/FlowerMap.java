@@ -45,7 +45,7 @@ public class FlowerMap extends BaseGoogleMapActivity implements ClusterManager.O
         private final ImageView mClusterImageView;
         private final int mDimension;
 
-        public PersonRenderer() {
+        private PersonRenderer() {
             super(getApplicationContext(), getMap(), mClusterManager);
 
             View multiProfile = getLayoutInflater().inflate(R.layout.multi_profile, null);
@@ -151,22 +151,28 @@ public class FlowerMap extends BaseGoogleMapActivity implements ClusterManager.O
 
     private void addItems() {
         // http://www.flickr.com/photos/sdasmarchives/5036248203/
-
         SQLiteDatabase db = DH.getReadableDatabase();
-        Cursor PicCur = db.rawQuery("SELECT _Picture FROM FlowerCoordinate",null);
-        Cursor Latcur = db.rawQuery("SELECT _Latitude FROM FlowerCoordinate",null);
-        Cursor Loncur = db.rawQuery("SELECT _Longitude FROM FlowerCoordinate",null);
-        PicCur.moveToFirst();
-        Latcur.moveToFirst();
-        Loncur.moveToFirst();
+        Cursor PicCur = db.rawQuery("SELECT _Picture FROM FlowerCoordinate", null);
+        Cursor Latcur = db.rawQuery("SELECT _Latitude FROM FlowerCoordinate", null);
+        Cursor Loncur = db.rawQuery("SELECT _Longitude FROM FlowerCoordinate", null);
+        try {
+            PicCur.moveToFirst();
+            Latcur.moveToFirst();
+            Loncur.moveToFirst();
 
-        for(int i=0;i<PicCur.getCount();i++) {
-            mClusterManager.addItem(new Flower(setLatLng(Double.parseDouble(Latcur.getString(0)),Double.parseDouble(Loncur.getString(0))),base64tobitmap(PicCur.getString(0))));
-            PicCur.moveToNext();
-            Latcur.moveToNext();
-            Loncur.moveToNext();
+            for (int i = 0; i < PicCur.getCount(); i++) {
+                mClusterManager.addItem(new Flower(setLatLng(Double.parseDouble(Latcur.getString(0)), Double.parseDouble(Loncur.getString(0))), base64tobitmap(PicCur.getString(0))));
+                PicCur.moveToNext();
+                Latcur.moveToNext();
+                Loncur.moveToNext();
+            }
         }
-
+        finally {
+            db.close();
+            PicCur.close();
+            Latcur.close();
+            Loncur.close();
+        }
     }
 
 
